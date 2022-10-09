@@ -27,7 +27,8 @@ SECRET_KEY = '5*p8kund7xma&pq5(2!+@fmd74%^q+z$wb*91yjnrh@%l+^+r5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
@@ -43,10 +44,12 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth'
+    'rest_auth',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,3 +141,6 @@ REST_FRAMEWORK = {
 }
 
 django_heroku.settings(locals())
+
+ISSUER_AGENT_URL = "https://ds-agent.igrant.io"
+COMPANY_AGENT_URL = "https://dus-agent.igrant.io"
