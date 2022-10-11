@@ -23,6 +23,13 @@ def get_endpoint(request):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(['GET'])
 def get_connections(request):
+    url = "https://staging-api.igrant.io/v1/organizations/624c025d7eff6f000164bb94/aries-cloudagent"
+    authorization_header = 'ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs'
+    response = requests.get(url, headers={'Authorization': authorization_header})
+    return Response(response.json(), status=response.status_code)
+
+    return
+    """
     endpoint = get_endpoint(request)
     response = requests.get(endpoint + '/connections')
     results = response.json().get('results', None)
@@ -34,6 +41,7 @@ def get_connections(request):
         'result': results,
         'invitation_data': invitation_data
     }, status=response.status_code)
+    """
 
 @permission_classes([permissions.IsAuthenticated])
 @api_view(['POST'])
