@@ -12,7 +12,7 @@ import requests
 @permission_classes([permissions.IsAuthenticated])
 @api_view(['GET'])
 def get_certificates(request):
-    certificates = Certificates.objects.filter(user=request.user).all()
+    certificates = Certificates.objects.filter(user=request.user).values('credential_exchange_id').all()
     return Response({
         'certificates': certificates,
     }, status=status.HTTP_200_OK)
@@ -100,5 +100,4 @@ def check_certificate(request):
     authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
     response = requests.get(url,
                             headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
-    print(response)
     return Response(response.json(), status=response.status_code)
