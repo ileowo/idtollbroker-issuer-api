@@ -8,21 +8,27 @@ from rest_framework import status
 from .models import Certificates
 import requests
 
+authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
 
 @permission_classes([permissions.IsAuthenticated])
 @api_view(['GET'])
 def get_certificates(request):
+    """
     certificates = Certificates.objects.filter(user=request.user).values('credential_exchange_id').all()
     return Response({
         'certificates': certificates,
     }, status=status.HTTP_200_OK)
-
+    """
+    organisation_id = request.GET['organisation_id']
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials"
+    response = requests.get(url,
+                            headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
+    return Response(response.json(), status=response.status_code)
 
 @permission_classes([permissions.IsAuthenticated])
 @api_view(['GET'])
 def request_certificates(request):
     url = "https://cloudagent.igrant.io/v1/624c025d7eff6f000164bb94/admin/issue-credential/send-offer"
-    authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
     payload = {
         "comment": "Certificate of registration and register extract",
         "auto_remove": False,
@@ -97,7 +103,25 @@ def request_certificates(request):
 def check_certificate(request):
     credential_exchange_id = request.GET['credential_exchange_id']
     url = f"https://cloudagent.igrant.io/v1/624c025d7eff6f000164bb94/admin/issue-credential/records/{credential_exchange_id}"
-    authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
+    response = requests.get(url,
+                            headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
+    return Response(response.json(), status=response.status_code)
+
+@permission_classes([permissions.IsAuthenticated])
+@api_view(['GET'])
+def get_certificate_schemas(request):
+    organisation_id = request.GET['organisation_id']
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/schemas/created"
+    response = requests.get(url,
+                            headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
+    return Response(response.json(), status=response.status_code)
+@permission_classes([permissions.IsAuthenticated])
+@api_view(['GET'])
+def get_certificate_schema_attributes(request):
+    organisation_id = request.GET['organisation_id']
+    schema_id = request.GET['schema_id']
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/schemas/{schema_id}"
+    print(url)
     response = requests.get(url,
                             headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
     return Response(response.json(), status=response.status_code)
