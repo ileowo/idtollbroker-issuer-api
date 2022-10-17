@@ -111,10 +111,11 @@ def check_certificate(request):
 @api_view(['GET'])
 def get_certificate_schemas(request):
     organisation_id = request.GET['organisation_id']
-    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/schemas/created"
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/v1/data-agreements?method_of_use=data-source&publish_flag=true&page=1&page_size=1000000"
     response = requests.get(url,
                             headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
     return Response(response.json(), status=response.status_code)
+
 @permission_classes([permissions.IsAuthenticated])
 @api_view(['GET'])
 def get_certificate_schema_attributes(request):
