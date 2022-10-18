@@ -136,4 +136,4 @@ def delete_certificate(request):
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials/{referent}"
     response = requests.delete(url,
                             headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
-    return Response(response.json(), status=response.status_code)
+    return Response(status=response.status_code)
