@@ -11,6 +11,15 @@ import base64
 
 import requests
 
+@api_view(['GET'])
+def get_default_wallet(request):
+    organisation_id = "624c025d7eff6f000164bb94"
+    authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs"
+    url = f"https://staging-api.igrant.io/v1/organizations/{organisation_id}/aries-cloudagent"
+    response = requests.get(url,
+                            headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
+    return Response(response.json(), status=response.status_code)
+
 def get_endpoint(request):
     endpoint = ''
     if request.user.user_type == IGrantUser.UserType.COMPANY:
