@@ -1,1 +1,0 @@
-web: gunicorn pop_backend.wsgi
