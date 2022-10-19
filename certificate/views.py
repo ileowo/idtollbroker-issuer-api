@@ -133,7 +133,7 @@ def get_certificate_schema_attributes(request):
 def delete_certificate(request):
     organisation_id = request.GET['organisation_id']
     referent = request.GET['referent']
-    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials/{referent}"
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credential/{referent}"
     response = requests.delete(url,
                             headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
     return Response(status=response.status_code)
