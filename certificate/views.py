@@ -20,7 +20,7 @@ def get_certificates(request):
     }, status=status.HTTP_200_OK)
     """
     organisation_id = "6343ecbb6de5d70001ac038e"
-    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials"
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials?count=1000"
     response = requests.get(url,
                             headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
     return Response(response.json(), status=response.status_code)
