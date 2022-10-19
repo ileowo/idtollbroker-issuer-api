@@ -46,14 +46,7 @@ $ git clone https://github.com/L3-iGrant/pob-backend
 cd pob-backend
 ```
 
-3. Create a virtual environment to install dependencies in and activate it:
-
-```sh
-$ virtualenv2 --no-site-packages env
-$ source env/bin/activate
-```
-
-4. To get an overview of different commands available in the current project run
+3. To get an overview of different commands available in the current project run
 
 ```bash
 make
@@ -76,13 +69,13 @@ run                            Run backend locally for development purposes
 setup                          Sets up development environment
 ```
 
-5. Build the project
+4. Build the project
 
 ```bash
 make build
 ```
 
-6. Finally to run the server (http://localhost:8000) locally,
+5. Finally to run the server (http://localhost:8000) locally,
 
 ```bash
 make run
