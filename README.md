@@ -59,8 +59,7 @@ The server should be running at `http://127.0.0.1:8000/`.
 ```sh
 (env)$ cd project
 (env)$ python manage.py createsuperuser
-
-
+```
 
 ## Licensing
 Copyright (c) 2022-25 Bolagsverket, Sweden
