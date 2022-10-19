@@ -22,44 +22,79 @@ Release 1.0 - The release is in alpha demo stage.
 ## Installation
 
 Requirements:
-- python 3.8.1.2 and pip3
+- python 3.8.1.2
+
+
 ## Steps to run
+### **Pre-requisite:**   
+
+1. Docker is installed in the local system
+2. [Setup up SSH in github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+
+### **Steps:**
 
 1. Clone this repo
 
 ```sh
 $ git clone https://github.com/L3-iGrant/pob-backend
-$ cd pob-backend/code
 ```
 
-2. Create a virtual environment to install dependencies in and activate it:
+
+2. Change the current direcotry to *pob-backend*
+
+```bash
+cd pob-backend
+```
+
+3. Create a virtual environment to install dependencies in and activate it:
 
 ```sh
 $ virtualenv2 --no-site-packages env
 $ source env/bin/activate
 ```
 
-3. Install the dependencies:
+4. To get an overview of different commands available in the current project run
 
-```sh
-(env)$ pip install -r requirements.txt
+```bash
+make
 ```
-Note the `(env)` in front of the prompt. This indicates that this terminal
-session operates in a virtual environment set up by `virtualenv2`.
 
-4. Once `pip` has finished downloading the dependencies:
-```sh
-(env)$ cd project
-(env)$ python manage.py migrate
-(env)$ python manage.py runserver
-```
-The server should be running at `http://127.0.0.1:8000/`.
+The following commands are currently supported
 
-5. Create super user
-```sh
-(env)$ cd project
-(env)$ python manage.py createsuperuser
+```bash
+------------------------------------------------------------------------
+Bolagsverket (Proof Of Business) - Backend
+------------------------------------------------------------------------
+bootstrap                      Boostraps development environment
+build/docker/deployable        Builds deployable docker image for preview, staging and production
+build/docker/deployable_x86    Builds deployable docker image explicitly for x86 architecture
+build                          Builds the docker image
+deploy/production              Deploy to K8s cluster (e.g. make deploy/{preview,staging,production})
+deploy/staging                 Deploy to K8s cluster (e.g. make deploy/{preview,staging,staging})
+publish                        Publish latest production Docker image to docker hub
+run                            Run backend locally for development purposes
+setup                          Sets up development environment
 ```
+
+5. Build the project
+
+```bash
+make build
+```
+
+6. Finally to run the server (http://localhost:8000) locally,
+
+```bash
+make run
+```
+
+Django admin dashboard is accessible at http://localhost:8000/admin/ endpoint. Super user credentials are as given below:
+
+```
+email: admin@example.com
+password: admin
+```
+
 
 ## Licensing
 Copyright (c) 2022-25 Bolagsverket, Sweden
