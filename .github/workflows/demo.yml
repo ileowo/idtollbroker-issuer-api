@@ -1,0 +1,52 @@
+name: Release to demo
+
+on:
+  release:
+    types: [created]
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT_JENKINS }}
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL_JENKINS }}
+  GITHUB_SHA: ${{ github.sha }}
+  GKE_ZONE: europe-west3-c
+  GKE_CLUSTER: igrant-cluster
+  IMAGE: igrant-pob-backend
+  REGISTRY_HOSTNAME: eu.gcr.io
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.release.tag }}
+
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
+      # Setup gcloud CLI
+      - uses: google-github-actions/setup-gcloud@v0
+        with:
+          version: "270.0.0"
+          service_account_email: ${{ secrets.GKE_EMAIL_JENKINS }}
+          service_account_key: ${{ secrets.GKE_KEY_JENKINS }}
+
+      # Setup kubectl
+      - uses: ThomasKliszowski/setup-kubectl@v1
+        with:
+          kube-config: ${{ secrets.KUBE_CONFIG_DATA }}
+
+      # Configure docker to use the gcloud command-line tool as a credential helper
+      - run: |
+          # Set up docker to authenticate
+          # via gcloud command-line tool.
+          gcloud auth configure-docker
+
+      # Build docker image, publish docker image to gcp container registry, deploy to production
+      - name: Build docker image, publish docker image to gcp container registry, deploy to production
+        run: |
+          make build/docker/deployable publish deploy/production
