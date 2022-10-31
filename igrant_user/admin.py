@@ -46,6 +46,8 @@ class IGrantUserAdmin(BaseUserAdmin):
                     "is_staff",
                     "is_active",
                     "user_type",
+                    "org",
+                    "org_verification_status",
                 )
             },
         ),
@@ -62,6 +64,8 @@ class IGrantUserAdmin(BaseUserAdmin):
                     "is_staff",
                     "is_active",
                     "user_type",
+                    "org",
+                    "org_verification_status",
                 ),
             },
         ),
