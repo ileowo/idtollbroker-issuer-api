@@ -32,7 +32,7 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
     org_verification_status = models.CharField(
         max_length=250,
         choices=OrgsVerificationStatus.choices,
-        default=OrgsVerificationStatus.DEFAULT,
+        default=OrgsVerificationStatus.UNVERIFIED,
     )
 
     USERNAME_FIELD = "email"
