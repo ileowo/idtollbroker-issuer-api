@@ -63,7 +63,7 @@ run: ## Run backend locally for development purposes
 		-e DJANGO_SUPERUSER_USERNAME="${DJANGO_SUPERUSER_USERNAME}" \
 		-e DJANGO_SUPERUSER_EMAIL="${DJANGO_SUPERUSER_EMAIL}" \
 		-e DJANGO_SUPERUSER_PASSWORD="${DJANGO_SUPERUSER_PASSWORD}" \
-		-v pob_backend_data:/app \
+		-v $(CURDIR)/db:/app/db \
 		-p 8000:8000 \
 		--name "${CONTAINER_POB_BACKEND}" \
 		$(DOCKER_IMAGE):dev
