@@ -30,4 +30,4 @@ RUN chmod 777 /app/resources/docker/entrypoint.sh
 RUN mv /app/resources/docker/entrypoint.sh /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "pop_backend.wsgi"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "pob_backend.wsgi"]

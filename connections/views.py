@@ -1,27 +1,34 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
-from pop_backend.settings import COMPANY_AGENT_URL, ISSUER_AGENT_URL
+from pob_backend.settings import COMPANY_AGENT_URL, ISSUER_AGENT_URL
 from igrant_user.models import IGrantUser
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Invitations
+from connections.models import Invitations
 import json
 import base64
 
 import requests
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def get_default_wallet(request):
     organisation_id = "624c025d7eff6f000164bb94"
     authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs"
     url = f"https://staging-api.igrant.io/v1/organizations/{organisation_id}/aries-cloudagent"
-    response = requests.get(url,
-                            headers={'Authorization': authorization, 'content-type': 'application/json;charset=UTF-8'})
+    response = requests.get(
+        url,
+        headers={
+            "Authorization": authorization,
+            "content-type": "application/json;charset=UTF-8",
+        },
+    )
     return Response(response.json(), status=response.status_code)
 
+
 def get_endpoint(request):
-    endpoint = ''
+    endpoint = ""
     if request.user.user_type == IGrantUser.UserType.COMPANY:
         endpoint = COMPANY_AGENT_URL
     else:
@@ -29,12 +36,13 @@ def get_endpoint(request):
     print(endpoint)
     return endpoint
 
+
 @permission_classes([permissions.IsAuthenticated])
-@api_view(['GET'])
+@api_view(["GET"])
 def get_connections(request):
     url = "https://staging-api.igrant.io/v1/organizations/624c025d7eff6f000164bb94/aries-cloudagent"
-    authorization_header = 'ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs'
-    response = requests.get(url, headers={'Authorization': authorization_header})
+    authorization_header = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs"
+    response = requests.get(url, headers={"Authorization": authorization_header})
     return Response(response.json(), status=response.status_code)
 
     return
@@ -52,25 +60,29 @@ def get_connections(request):
     }, status=response.status_code)
     """
 
+
 @permission_classes([permissions.IsAuthenticated])
-@api_view(['POST'])
+@api_view(["POST"])
 def accept_invitation(request):
     endpoint = get_endpoint(request)
     body = request.data
     print(body)
-    connection_url = body.get('connection_url', None)
+    connection_url = body.get("connection_url", None)
     if connection_url is not None:
-        payload = {
-            "connection_url": connection_url
-        }
-        response = requests.post(endpoint + '/v2/connections/receive-invitation?auto_accept=true', json=payload)
+        payload = {"connection_url": connection_url}
+        response = requests.post(
+            endpoint + "/v2/connections/receive-invitation?auto_accept=true",
+            json=payload,
+        )
         if response.status_code == status.HTTP_200_OK:
             connection = response.json()
-            connection_id = connection.get('connection_id')
-            connection_data = connection_url.split('c_i=')[-1]
+            connection_id = connection.get("connection_id")
+            connection_data = connection_url.split("c_i=")[-1]
             connection_data = str(base64.b64decode(connection_data))
 
-            invitation, created = Invitations.objects.get_or_create(user=request.user, connection_id=connection_id)
+            invitation, created = Invitations.objects.get_or_create(
+                user=request.user, connection_id=connection_id
+            )
             invitation.invitation_data = connection_data
             invitation.save()
             return Response(response.json(), status=response.status_code)

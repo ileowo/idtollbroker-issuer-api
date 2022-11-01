@@ -1,4 +1,4 @@
-"""pop_backend URL Configuration
+"""pob_backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path(r'rest-auth/', include('rest_auth.urls')),
-    path(r'users', include('igrant_user.urls')),
-    path(r'connections', include('connections.urls')),
-    path(r'certificates', include('certificate.urls')),
+    path("admin/", admin.site.urls),
+    path(r"rest-auth/", include("rest_auth.urls")),
+    path(r"users", include("igrant_user.urls")),
+    path(r"connections", include("connections.urls")),
+    path(r"certificates", include("certificate.urls")),
 ]
