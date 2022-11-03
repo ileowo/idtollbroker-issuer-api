@@ -131,6 +131,10 @@ STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = "igrant_user.IGrantUser"
 
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'igrant_user.serializers.CustomTokenSerializer'
+}
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
