@@ -10,6 +10,8 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
     class UserType(models.TextChoices):
         COMPANY = "COMPANY", _("Company")
         ISSUER = "ISSUER", _("Issuer")
+        BUYER = "BUYER", _("Buyer")
+        SELLER = "SELLER", _("Seller")
 
     class Orgs(models.TextChoices):
         DEFAULT = "NIL", _("Nil")
