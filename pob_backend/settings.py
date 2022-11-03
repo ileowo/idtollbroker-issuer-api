@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "igrant_user",
     "connections",
     "certificate",
+    "buyer",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",

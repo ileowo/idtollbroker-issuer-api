@@ -22,4 +22,5 @@ urlpatterns = [
     path(r"users", include("igrant_user.urls")),
     path(r"connections", include("connections.urls")),
     path(r"certificates", include("certificate.urls")),
+    path(r'procurement-buyer/', include("buyer.urls")),
 ]
