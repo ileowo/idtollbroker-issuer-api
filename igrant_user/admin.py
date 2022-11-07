@@ -29,6 +29,11 @@ class IGrantUserAdmin(BaseUserAdmin):
         "user_type",
         "org",
         "org_verification_status",
+        "connection_id",
+        "connection_state",
+        "presentation_exchange_id",
+        "presentation_state",
+        "presentation_record",
     )
     list_filter = (
         "email",
@@ -38,6 +43,11 @@ class IGrantUserAdmin(BaseUserAdmin):
         "user_type",
         "org",
         "org_verification_status",
+        "connection_id",
+        "connection_state",
+        "presentation_exchange_id",
+        "presentation_state",
+        "presentation_record",
     )
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -51,6 +61,11 @@ class IGrantUserAdmin(BaseUserAdmin):
                     "user_type",
                     "org",
                     "org_verification_status",
+                    "connection_id",
+                    "connection_state",
+                    "presentation_exchange_id",
+                    "presentation_state",
+                    "presentation_record",
                 )
             },
         ),
@@ -70,6 +85,11 @@ class IGrantUserAdmin(BaseUserAdmin):
                     "user_type",
                     "org",
                     "org_verification_status",
+                    "connection_id",
+                    "connection_state",
+                    "presentation_exchange_id",
+                    "presentation_state",
+                    "presentation_record",
                 ),
             },
         ),
