@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
 from pob_backend.settings import COMPANY_AGENT_URL, ISSUER_AGENT_URL
@@ -88,5 +88,29 @@ def accept_invitation(request):
             return Response(response.json(), status=response.status_code)
         else:
             return Response(response.content, status=response.status_code)
+    else:
+        return Response(" connection_url required", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+def receive_invitation(request):
+    organisation_id = "6364ee3781f7df00012cdaba"
+    body = request.data
+    connection_url = body.get("connection_url", None)
+    if connection_url is not None:
+        connection_data = connection_url.split("c_i=")[-1]
+        connection_data = base64.b64decode(connection_data)
+        connection_data = json.loads(connection_data)
+        url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/connections/receive-invitation?auto_accept=true"
+        authorization_header = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzY0ZWUwNjgxZjdkZjAwMDEyY2RhYjkiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5ODY2MzI5N30.XAgBDTmlJwofuCF_P-rLoVxTBeJuKQYKtYhiyji1kS0"
+        response = requests.post(url,json=connection_data, headers={"Authorization": authorization_header})
+        response = json.loads(response.text)
+        connection_id = response["connection_id"]
+        connection_state = response["state"]
+        user = request.user
+        user.connection_id = connection_id
+        user.connection_state = connection_state
+        user.save()
+        return Response(response)
     else:
         return Response(" connection_url required", status=status.HTTP_400_BAD_REQUEST)
