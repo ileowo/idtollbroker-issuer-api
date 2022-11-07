@@ -16,3 +16,16 @@ def receive_invitation(request):
     user.connection_state = connection_state
     user.save()
     return HttpResponse(status=status.HTTP_200_OK)
+
+
+@require_POST
+def verify_certificate(request):
+    response = request.body
+    response = json.loads(response)
+    presentation_exchange_id = response["presentation_exchange_id"]
+    presentation_state = response["state"]
+    presentation_record = response
+    user = get_object_or_404(IGrantUser,presentation_exchange_id = presentation_exchange_id)
+    user.presentation_state = presentation_state
+    user.save()
+    return HttpResponse(status=status.HTTP_200_OK)
