@@ -811,3 +811,19 @@ def publish_tender(request, tender_id):
     tenderData['requirement'] = requirementData 
  
     return JsonResponse(tenderData)
+
+
+@permission_classes([permissions.IsAuthenticated])
+@api_view(["GET"])
+def get_qualification_documents(request):
+    response = {
+        "qualification_documents": [
+            {
+                "schema_id": "GsMTo44BktRxUFjRVxR1nL:2:Certificate Of Registration:2.0.0",
+                "cred_def_id": "GsMTo44BktRxUFjRVxR1nL:3:CL:3878:default",
+                "issuer_label": "Bolagsverket, Sweden",
+                "data_agreement_id": "974c628b-83c4-4a22-a8c0-7b42169248ef"
+            }
+        ]
+    }
+    return JsonResponse(response)
