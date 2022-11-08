@@ -28,7 +28,7 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    fullname = models.CharField(max_length=250,unique=True,null=True)
+    fullname = models.CharField(max_length=250,unique=True,null=True,blank=True)
     user_type = models.CharField(
         max_length=8, choices=UserType.choices, default=UserType.COMPANY
     )
@@ -38,11 +38,11 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
         choices=OrgsVerificationStatus.choices,
         default=OrgsVerificationStatus.UNVERIFIED,
     )
-    connection_id = models.CharField(max_length=250,unique=True,null=True )
-    connection_state = models.CharField(max_length=250,null=True)
-    presentation_exchange_id = models.CharField(max_length=250,unique=True,null=True)
-    presentation_state = models.CharField(max_length=250,null=True)
-    presentation_record = JSONField(default=[])
+    connection_id = models.CharField(max_length=250,unique=True,null=True,blank=True)
+    connection_state = models.CharField(max_length=250,null=True,blank=True)
+    presentation_exchange_id = models.CharField(max_length=250,unique=True,null=True,blank=True)
+    presentation_state = models.CharField(max_length=250,null=True,blank=True)
+    presentation_record = JSONField(default=[],blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
