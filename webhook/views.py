@@ -32,4 +32,7 @@ def verify_certificate(request):
     user.presentation_state = presentation_state
     user.presentation_record = presentation_record
     user.save()
+    if presentation_state == "verified":
+        user.org_verification_status = "VERIFIED"
+        user.save()
     return HttpResponse(status=status.HTTP_200_OK)
