@@ -3,9 +3,11 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from igrant_user.models import IGrantUser
 from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 # Create your views here.
+@csrf_exempt
 @require_POST
 def receive_invitation(request):
     response = request.body
@@ -18,6 +20,7 @@ def receive_invitation(request):
     return HttpResponse(status=status.HTTP_200_OK)
 
 
+@csrf_exempt
 @require_POST
 def verify_certificate(request):
     response = request.body

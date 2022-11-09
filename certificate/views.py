@@ -6,11 +6,13 @@ from igrant_user.models import IGrantUser
 from rest_framework.response import Response
 from rest_framework import status
 from certificate.models import Certificates
+from django.views.decorators.csrf import csrf_exempt
 import requests
 
 authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_certificates(request):
@@ -32,6 +34,7 @@ def get_certificates(request):
     return Response(response.json(), status=response.status_code)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def request_certificates(request):
@@ -83,6 +86,7 @@ def request_certificates(request):
         return Response(response.text, status=response.status_code)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def check_certificate(request):
@@ -98,6 +102,7 @@ def check_certificate(request):
     return Response(response.json(), status=response.status_code)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_certificate_schemas(request):
@@ -113,6 +118,7 @@ def get_certificate_schemas(request):
     return Response(response.json(), status=response.status_code)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_certificate_schema_attributes(request):
@@ -130,6 +136,7 @@ def get_certificate_schema_attributes(request):
     return Response(response.json(), status=response.status_code)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["DELETE"])
 def delete_certificate(request):

@@ -5,6 +5,7 @@ from rest_framework import permissions
 from .models import Tender, Requirement
 from django.http import JsonResponse
 from .serializers import TenderSerializer,RequirementSerializer
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 
@@ -768,6 +769,7 @@ seller_certificate = [{
 }]
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def list_tenders(request):
@@ -786,6 +788,7 @@ def list_tenders(request):
     return JsonResponse(response,safe=False)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_tender(request, tender_id):
@@ -800,6 +803,7 @@ def get_tender(request, tender_id):
     return JsonResponse(tenderData)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"])
 def publish_tender(request, tender_id):
@@ -816,6 +820,7 @@ def publish_tender(request, tender_id):
     return JsonResponse(tenderData)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_qualification_documents(request):
@@ -832,6 +837,7 @@ def get_qualification_documents(request):
     return JsonResponse(response)
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"])
 def verify_certificate(request):

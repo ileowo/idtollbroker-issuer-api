@@ -6,6 +6,7 @@ from .permissions import IsOwnerOrReadOnly
 from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -24,6 +25,7 @@ class UserDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAdminUser])
 @api_view(["POST"])
 def AdminResetConnection(request):

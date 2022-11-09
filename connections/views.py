@@ -6,12 +6,14 @@ from igrant_user.models import IGrantUser
 from rest_framework.response import Response
 from rest_framework import status
 from connections.models import Invitations
+from django.views.decorators.csrf import csrf_exempt
 import json
 import base64
 
 import requests
 
 
+@csrf_exempt
 @api_view(["GET"])
 def get_default_wallet(request):
     organisation_id = "624c025d7eff6f000164bb94"
@@ -37,6 +39,7 @@ def get_endpoint(request):
     return endpoint
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_connections(request):
@@ -61,6 +64,7 @@ def get_connections(request):
     """
 
 
+@csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"])
 def accept_invitation(request):
@@ -92,6 +96,8 @@ def accept_invitation(request):
         return Response(" connection_url required", status=status.HTTP_400_BAD_REQUEST)
 
 
+@csrf_exempt
+@permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"])
 def receive_invitation(request):
     organisation_id = "6364ee3781f7df00012cdaba"
