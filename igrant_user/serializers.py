@@ -4,6 +4,8 @@ from rest_framework.authtoken.models import Token
 
 
 class IGrantUserSerializer(serializers.ModelSerializer):
+    org = serializers.CharField(source='get_org_display')
+
     class Meta:
         model = IGrantUser
         fields = ['id', 'email', 'fullname', 'user_type', 'org', 'connection_id', 'connection_state', 'presentation_exchange_id', 'presentation_state', 'presentation_record']
