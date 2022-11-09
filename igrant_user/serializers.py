@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 class IGrantUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = IGrantUser
-        fields = ['id', 'email', 'user_type', 'org', 'connection_id', 'connection_state', 'presentation_exchange_id', 'presentation_state', 'presentation_record']
+        fields = ['id', 'email', 'fullname', 'user_type', 'org', 'connection_id', 'connection_state', 'presentation_exchange_id', 'presentation_state', 'presentation_record']
 
 
 class CustomTokenSerializer(serializers.ModelSerializer):
