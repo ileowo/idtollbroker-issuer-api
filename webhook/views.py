@@ -27,5 +27,6 @@ def verify_certificate(request):
     presentation_record = response
     user = get_object_or_404(IGrantUser,presentation_exchange_id = presentation_exchange_id)
     user.presentation_state = presentation_state
+    user.presentation_record = presentation_record
     user.save()
     return HttpResponse(status=status.HTTP_200_OK)
