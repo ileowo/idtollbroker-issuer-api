@@ -8,7 +8,7 @@ class IGrantUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = IGrantUser
-        fields = ['id', 'email', 'fullname', 'user_type', 'org', 'org_verification_status', 'connection_id', 'connection_state', 'presentation_exchange_id', 'presentation_state', 'presentation_record']
+        fields = ['id', 'email', 'fullname', 'address', 'country', 'user_type', 'org', 'org_verification_status', 'connection_id', 'connection_state', 'presentation_exchange_id', 'presentation_state', 'presentation_record']
 
 
 class CustomTokenSerializer(serializers.ModelSerializer):
