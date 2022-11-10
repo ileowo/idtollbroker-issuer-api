@@ -10,14 +10,18 @@ import json
 @csrf_exempt
 @require_POST
 def receive_invitation(request):
+    
     response = request.body
     response = json.loads(response)
     connection_id = response["connection_id"]
     connection_state = response["state"]
     user = get_object_or_404(IGrantUser,connection_id = connection_id)
-    user.connection_state = connection_state
-    user.save()
-    return HttpResponse(status=status.HTTP_200_OK)
+    if user.connection_state == "active":
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        user.connection_state = connection_state
+        user.save()
+        return HttpResponse(status=status.HTTP_200_OK)
 
 
 @csrf_exempt
@@ -29,10 +33,13 @@ def verify_certificate(request):
     presentation_state = response["state"]
     presentation_record = response
     user = get_object_or_404(IGrantUser,presentation_exchange_id = presentation_exchange_id)
-    user.presentation_state = presentation_state
-    user.presentation_record = presentation_record
-    user.save()
-    if presentation_state == "verified":
-        user.org_verification_status = "VERIFIED"
+    if user.presentation_state == "verified":
+        return HttpResponse(status=status.HTTP_200_OK)
+    else:
+        user.presentation_state = presentation_state
+        user.presentation_record = presentation_record
         user.save()
-    return HttpResponse(status=status.HTTP_200_OK)
+        if presentation_state == "verified":
+            user.org_verification_status = "VERIFIED"
+            user.save()
+            return HttpResponse(status=status.HTTP_200_OK)
