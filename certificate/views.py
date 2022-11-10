@@ -1,13 +1,10 @@
-from django.shortcuts import render
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework import permissions
-from pob_backend.settings import COMPANY_AGENT_URL, ISSUER_AGENT_URL
-from igrant_user.models import IGrantUser
-from rest_framework.response import Response
-from rest_framework import status
-from certificate.models import Certificates
-from django.views.decorators.csrf import csrf_exempt
 import requests
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+
+from certificate.models import Certificates
 
 authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
 
@@ -43,7 +40,7 @@ def request_certificates(request):
         "comment": "Certificate of registration and register extract",
         "auto_remove": False,
         "trace": False,
-        "cred_def_id": "GsMTo44BktRxUFjRVxR1nL:3:CL:3601:default",
+        "cred_def_id": "GsMTo44BktRxUFjRVxR1nL:3:CL:3878:default",
         "connection_id": "60666c83-c8cd-46c0-bae1-82760c0e3cd9",
         "data_agreement_id": "e53700ae-d782-470d-ad1c-98ca72fcdf92",
         "credential_preview": {
