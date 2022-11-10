@@ -10,7 +10,10 @@ class TenderSerializer(serializers.Serializer):
 
 class RequirementSerializer(serializers.Serializer):
     id = serializers.IntegerField()
+    issuer = serializers.CharField(max_length=250)
+    data_agreement_id = serializers.CharField(max_length=250)
     category = serializers.CharField(max_length=256)
     requirement_header = serializers.CharField(max_length=256)
     requirement_description = serializers.CharField(max_length=256)
     requirement_category = serializers.CharField(max_length=256)
+    submission_status = serializers.BooleanField()
