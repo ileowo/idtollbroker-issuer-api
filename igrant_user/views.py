@@ -28,11 +28,12 @@ class UserDetail(generics.RetrieveAPIView):
 @csrf_exempt
 @permission_classes([permissions.IsAdminUser])
 @api_view(["POST"])
-def AdminResetConnection(request):
+def AdminReset(request):
     queryset = IGrantUser.objects.all()
     for user in queryset:
         user.connection_id = None
         user.connection_state = None
+        user.org_verification_status = "UNVERIFIED"
         user.presentation_exchange_id = None
         user.presentation_state = None
         user.presentation_record = []
