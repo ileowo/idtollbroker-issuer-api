@@ -47,7 +47,7 @@ def get_tender(request, tender_id):
 @csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"]) 
-def verify_certificate(request):
+def verify_certificate(request,tender_id,requirement_id):
     organisation_id = "6364ee3781f7df00012cdaba"
     body = request.data
     data_agreement_id = body.get("data_agreement_id", None)
@@ -61,8 +61,9 @@ def verify_certificate(request):
     presentation_exchange_id = response["presentation_exchange_id"]
     presentation_state = response["state"]
     presentation_record = response
-    user.presentation_exchange_id = presentation_exchange_id
-    user.presentation_state = presentation_state
-    user.presentation_record = presentation_record
-    user.save()
+    responses = Responses.objects.get(tender=tender_id,requirements=requirement_id)
+    responses.presentation_exchange_id = presentation_exchange_id
+    responses.presentation_state = presentation_state
+    responses.presentation_record = presentation_record
+    responses.save()
     return JsonResponse(response)

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from igrant_user.models import IGrantUser
+from seller.models import Responses
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -32,14 +33,24 @@ def verify_certificate(request):
     presentation_exchange_id = response["presentation_exchange_id"]
     presentation_state = response["state"]
     presentation_record = response
-    user = get_object_or_404(IGrantUser,presentation_exchange_id = presentation_exchange_id)
-    if user.presentation_state == "verified":
-        return HttpResponse(status=status.HTTP_200_OK)
+    user = IGrantUser.objects.get(presentation_exchange_id = presentation_exchange_id)
+    if not user:
+        response = Responses.objects.get(presentation_exchange_id = presentation_exchange_id)
+        if response.presentation_state == "verified":
+            return HttpResponse(status=status.HTTP_200_OK)
+        else:
+            response.presentation_state = presentation_state
+            response.presentation_record = presentation_record
+            response.save()
+            return HttpResponse(status=status.HTTP_200_OK)
     else:
-        user.presentation_state = presentation_state
-        user.presentation_record = presentation_record
-        user.save()
-        if presentation_state == "verified":
-            user.org_verification_status = "VERIFIED"
+        if user.presentation_state == "verified":
+            return HttpResponse(status=status.HTTP_200_OK)
+        else:
+            user.presentation_state = presentation_state
+            user.presentation_record = presentation_record
             user.save()
+            if presentation_state == "verified":
+                user.org_verification_status = "VERIFIED"
+                user.save()
             return HttpResponse(status=status.HTTP_200_OK)
