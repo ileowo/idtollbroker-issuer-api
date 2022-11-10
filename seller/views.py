@@ -5,6 +5,7 @@ from rest_framework import permissions
 from buyer.serializers import TenderSerializer,RequirementSerializer
 from igrant_user.models import IGrantUser
 from buyer.models import Tender, Requirement
+from .models import Responses
 from django.http import JsonResponse
 import requests
 import json
@@ -23,19 +24,24 @@ def get_tender(request, tender_id):
     buyer_address = buyer.address
     buyer_country = buyer.country
     buyer_presentation_record = buyer.presentation_record
-    requirement = Requirement.objects.filter(tender_id=tender.id)
-    serializer = RequirementSerializer(requirement, many=True)
+    requirements = Requirement.objects.filter(tender_id=tender.id)
+    serializer = RequirementSerializer(requirements, many=True)
     requirement_data = serializer.data
-    response = {
+    for requirement in requirement_data:
+        response = Responses.objects.get(tender=tender.id,requirements=requirement["id"])
+        if response.presentation_state == "verified":
+            requirement["submission_status"] = True
+        else:
+            requirement["submission_status"] = False
+    responses = {
         "name": tender_name,
         "buyer":
         {
-            "name": buyer_name, "address": buyer_address, "country": buyer_country
+            "name": buyer_name, "address": buyer_address, "country": buyer_country, "presentation_record": buyer_presentation_record
         },
-        "presentation_record": buyer_presentation_record,
         "requirement": requirement_data
-    } 
-    return JsonResponse(response)
+    }
+    return JsonResponse(responses)
     
 
 @csrf_exempt
