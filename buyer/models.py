@@ -28,7 +28,6 @@ class Requirement(models.Model):
     requirement_header = models.CharField(max_length=256)
     requirement_description = models.CharField(max_length=256)
     requirement_category = models.CharField(max_length=256)
-    submission_status = models.BooleanField(default=True)
     tender = models.ForeignKey(Tender, on_delete=models.CASCADE, blank=True, null=True)
 
 

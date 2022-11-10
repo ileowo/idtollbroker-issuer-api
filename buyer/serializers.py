@@ -16,4 +16,3 @@ class RequirementSerializer(serializers.Serializer):
     requirement_header = serializers.CharField(max_length=256)
     requirement_description = serializers.CharField(max_length=256)
     requirement_category = serializers.CharField(max_length=256)
-    submission_status = serializers.BooleanField()
