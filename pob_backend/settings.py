@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "buyer",
     "seller",
     "webhook",
+    "verifications",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_auth",
