@@ -1,4 +1,5 @@
 from django.db import models
+from igrant_user.models import IGrantUser
 
 # Create your models here.
 class Tender(models.Model):
@@ -11,6 +12,8 @@ class Tender(models.Model):
         
     name = models.CharField(max_length=200)
     status = models.CharField(max_length=16, choices=STATUS.choices, default=STATUS.DRAFT)
+    user = models.ForeignKey(IGrantUser, on_delete=models.CASCADE, blank=True, null=True)
+
 
 
     def __str__(self):
