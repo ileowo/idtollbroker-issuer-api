@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "connections",
     "certificate",
     "buyer",
+    "seller",
     "webhook",
     "rest_framework",
     "rest_framework.authtoken",
