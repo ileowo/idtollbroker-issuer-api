@@ -120,3 +120,19 @@ def receive_invitation(request):
         return Response(response)
     else:
         return Response(" connection_url required", status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@permission_classes([permissions.IsAuthenticated])
+@api_view(["POST"])
+def create_invitation(request):
+    user = request.user
+    organisation_id = "6343ecbb6de5d70001ac038e"
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/v2/connections/create-invitation?multi_use=true"
+    authorization_header = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzY0ZWUwNjgxZjdkZjAwMDEyY2RhYjkiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5ODY2MzI5N30.XAgBDTmlJwofuCF_P-rLoVxTBeJuKQYKtYhiyji1kS0"
+    response = requests.post(url, headers={"Authorization": authorization_header})
+    response = response.json()
+    return Response(response)
+    
+    
+        
