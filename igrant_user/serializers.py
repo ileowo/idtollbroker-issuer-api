@@ -20,7 +20,9 @@ class CustomTokenSerializer(serializers.ModelSerializer):
         fields = ('key', 'user')
 
 
-class IGrantUsersSerializer(serializers.Serializer):
+class IGrantUsersSerializer(serializers.ModelSerializer):
     org = serializers.CharField(source='get_org_display')
-    org_verification_status = serializers.CharField(source='get_org_verification_status_display')
-    presentation_record = serializers.JSONField()
+
+    class Meta:
+        model = IGrantUser
+        fields = ['id', 'email', 'fullname', 'address', 'country', 'user_type', 'org', 'org_verification_status']
