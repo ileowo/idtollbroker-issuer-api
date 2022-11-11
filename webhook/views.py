@@ -33,24 +33,26 @@ def verify_certificate(request):
     presentation_exchange_id = response["presentation_exchange_id"]
     presentation_state = response["state"]
     presentation_record = response
-    user = IGrantUser.objects.get(presentation_exchange_id = presentation_exchange_id)
+    try:
+        user = IGrantUser.objects.get(presentation_exchange_id = presentation_exchange_id)
+    except IGrantUser.DoesNotExist:
+        user = None
     if not user:
-        response = Responses.objects.get(presentation_exchange_id = presentation_exchange_id)
-        if response.presentation_state == "verified":
-            return HttpResponse(status=status.HTTP_200_OK)
-        else:
-            response.presentation_state = presentation_state
-            response.presentation_record = presentation_record
-            response.save()
-            return HttpResponse(status=status.HTTP_200_OK)
-    else:
-        if user.presentation_state == "verified":
-            return HttpResponse(status=status.HTTP_200_OK)
-        else:
+        try:
+            responses = Responses.objects.get(presentation_exchange_id = presentation_exchange_id)
+        except Responses.DoesNotExist:
+            responses = None
+        if responses:
+            if responses.presentation_state != "verified":
+                responses.presentation_state = presentation_state
+                responses.presentation_record = presentation_record
+                responses.save()
+    if user:
+        if user.presentation_state != "verified":
             user.presentation_state = presentation_state
             user.presentation_record = presentation_record
             user.save()
             if presentation_state == "verified":
                 user.org_verification_status = "VERIFIED"
                 user.save()
-            return HttpResponse(status=status.HTTP_200_OK)
+    return HttpResponse(status=status.HTTP_200_OK)
