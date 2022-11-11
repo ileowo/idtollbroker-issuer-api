@@ -70,7 +70,7 @@ def verify_certificate(request,tender_id,requirement_id):
         tender = get_object_or_404(Tender, pk=tender_id)
         requirement = get_object_or_404(Requirement, pk=requirement_id)
         supplier = get_object_or_404(IGrantUser, pk=user.id)
-        responses = Responses.objects.get_or_create(tender=tender,requirements=requirement,supplier=supplier)
+        (responses, _) = Responses.objects.get_or_create(tender=tender,requirements=requirement,supplier=supplier)
         responses.presentation_exchange_id = presentation_exchange_id
         responses.presentation_state = presentation_state
         responses.presentation_record = presentation_record
