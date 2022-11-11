@@ -41,7 +41,7 @@ def request_certificates(request):
         "auto_remove": False,
         "trace": False,
         "cred_def_id": "GsMTo44BktRxUFjRVxR1nL:3:CL:3878:default",
-        "connection_id": "60666c83-c8cd-46c0-bae1-82760c0e3cd9",
+        "connection_id": "1ea91d13-4d58-46d3-acc1-ef9f9fd01c75",
         "data_agreement_id": "e53700ae-d782-470d-ad1c-98ca72fcdf92",
         "credential_preview": {
             "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
