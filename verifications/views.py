@@ -14,7 +14,7 @@ import json
 @api_view(["POST"])
 def verify_certificate(request):
     organisation_id = "6364ee3781f7df00012cdaba"
-    data_agreement_id = "974c628b-83c4-4a22-a8c0-7b42169248ef"
+    data_agreement_id = "a2f8d245-fb3d-4b19-bd2d-86f2346acc88"
     connection_id = request.user.connection_id
     payload = { "connection_id": connection_id, "data_agreement_id": data_agreement_id }
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/present-proof/data-agreement-negotiation/offer"
