@@ -37,7 +37,7 @@ def get_tender(request, tender_id):
             else:
                 requirement["submission_status"] = False
         except Responses.DoesNotExist:
-            pass
+            requirement["submission_status"] = False
     responses = {
         "name": tender_name,
         "buyer":
