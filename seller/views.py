@@ -30,11 +30,14 @@ def get_tender(request, tender_id):
     serializer = RequirementSerializer(requirements, many=True)
     requirement_data = serializer.data
     for requirement in requirement_data:
-        response = Responses.objects.get(tender=tender.id,requirements=requirement["id"])
-        if response.presentation_state == "verified":
-            requirement["submission_status"] = True
-        else:
-            requirement["submission_status"] = False
+        try:
+            response = Responses.objects.get(tender=tender.id,requirements=requirement["id"])
+            if response.presentation_state == "verified":
+                requirement["submission_status"] = True
+            else:
+                requirement["submission_status"] = False
+        except Responses.DoesNotExist:
+            pass
     responses = {
         "name": tender_name,
         "buyer":
