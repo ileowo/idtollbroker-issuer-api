@@ -21,7 +21,6 @@ import json
 def list_tenders(request):
     tenders = Tender.objects.all()
     result = []
-    document = []
     for tender in tenders:
         serializer = TenderSerializer(tender)
         tenderData = serializer.data
@@ -39,14 +38,10 @@ def list_tenders(request):
                 supplier = response.supplier
                 serializer = ResponsesSerializer(response)
                 response = serializer.data
-                supplier = IGrantUser.objects.filter(pk=supplier.id)
-                serializer = IGrantUsersSerializer(supplier, many = True)
-                supplier_data = serializer.data
                 document.append(response)
             if not response:
-                supplier_data = [{}]
-        supplier_data[0]["documents"] = document
-        tenderData['responses'] = supplier_data
+                pass
+        tenderData['responses'] = document
         result.append(tenderData)
     return JsonResponse(result,safe=False)
 
@@ -72,14 +67,10 @@ def get_tender(request, tender_id):
             supplier = response.supplier
             serializer = ResponsesSerializer(response)
             response = serializer.data
-            supplier = IGrantUser.objects.filter(pk=supplier.id)
-            serializer = IGrantUsersSerializer(supplier, many = True)
-            supplier_data = serializer.data
             document.append(response)
         if not response:
-            supplier_data = [{}]
-    supplier_data[0]["documents"] = document
-    tenderData['responses'] = supplier_data
+            pass
+    tenderData['responses'] = document
     return JsonResponse(tenderData)
 
 
