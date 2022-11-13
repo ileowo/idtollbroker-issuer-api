@@ -1,5 +1,6 @@
 from rest_framework import generics
 from .models import IGrantUser
+from seller.models import Responses
 from .serializers import IGrantUserSerializer
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly
@@ -38,4 +39,10 @@ def AdminReset(request):
         user.presentation_state = None
         user.presentation_record = []
         user.save()
+    queryset = Responses.objects.all()
+    for responses in queryset:
+        responses.presentation_exchange_id = None
+        responses.presentation_state = "unverified"
+        responses.presentation_record = []
+        responses.save()
     return HttpResponse(status=status.HTTP_200_OK)
