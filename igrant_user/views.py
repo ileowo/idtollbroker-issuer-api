@@ -46,3 +46,24 @@ def AdminReset(request):
         responses.presentation_record = []
         responses.save()
     return HttpResponse(status=status.HTTP_200_OK)
+
+
+@csrf_exempt
+@permission_classes([permissions.IsAdminUser])
+@api_view(["POST"])
+def UserReset(request):
+    user = request.user
+    user.connection_id = None
+    user.connection_state = None
+    user.org_verification_status = "UNVERIFIED"
+    user.presentation_exchange_id = None
+    user.presentation_state = None
+    user.presentation_record = []
+    user.save()
+    queryset = Responses.objects.filter(supplier=user)
+    for responses in queryset:
+        responses.presentation_exchange_id = None
+        responses.presentation_state = "unverified"
+        responses.presentation_record = []
+        responses.save()
+    return HttpResponse(status=status.HTTP_200_OK)
