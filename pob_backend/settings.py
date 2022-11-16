@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'constance',
+    'constance.backends.database',
     "igrant_user",
     "connections",
     "certificate",
@@ -87,6 +89,8 @@ WSGI_APPLICATION = "pob_backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+
 
 DATABASES = {
     "default": {
@@ -166,3 +170,9 @@ django_heroku.settings(locals())
 
 ISSUER_AGENT_URL = "https://ds-agent.igrant.io"
 COMPANY_AGENT_URL = "https://dus-agent.igrant.io"
+
+CONSTANCE_CONFIG = {
+    'BYGG_AB_ORG_ID': ("6343ecbb6de5d70001ac038e",'Org id of Bygg ab agent'),
+    'PROCUREMENT_PORTAL_ORG_ID': ("6364ee3781f7df00012cdaba", 'Organisation id of Procurement Portal agent'),
+    'BOLAGSVERKET_ORG_ID': ("624c025d7eff6f000164bb94", 'Organisation id of Bolagsverket agent')
+}

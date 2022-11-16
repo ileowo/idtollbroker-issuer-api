@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from constance import config
 
 from certificate.models import Certificates
 
@@ -19,7 +20,9 @@ def get_certificates(request):
         'certificates': certificates,
     }, status=status.HTTP_200_OK)
     """
-    organisation_id = "6343ecbb6de5d70001ac038e"
+    #organisation_id = "6343ecbb6de5d70001ac038e"
+    organisation_id = config.BYGG_AB_ORG_ID
+    print(organisation_id)
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials?count=1000"
     response = requests.get(
         url,

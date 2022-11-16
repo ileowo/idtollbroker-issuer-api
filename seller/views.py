@@ -9,6 +9,7 @@ from buyer.models import Tender, Requirement
 from .models import Responses
 from django.http import JsonResponse
 from rest_framework.response import Response
+from constance import config
 import requests
 import json
 
@@ -53,7 +54,9 @@ def get_tender(request, tender_id):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"]) 
 def verify_certificate(request,tender_id,requirement_id):
-    organisation_id = "6364ee3781f7df00012cdaba"
+    #organisation_id = "6364ee3781f7df00012cdaba"
+    organisation_id = config.PROCUREMENT_PORTAL_ORG_ID
+    print(organisation_id)
     body = request.data
     data_agreement_id = body.get("data_agreement_id", None)
     user = request.user

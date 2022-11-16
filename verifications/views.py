@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
+from constance import config
 import requests
 import json
 
@@ -13,7 +14,9 @@ import json
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"])
 def verify_certificate(request):
-    organisation_id = "6364ee3781f7df00012cdaba"
+    #organisation_id = "6364ee3781f7df00012cdaba"
+    organisation_id = config.PROCUREMENT_PORTAL_ORG_ID
+    print(organisation_id)
     data_agreement_id = "a2f8d245-fb3d-4b19-bd2d-86f2346acc88"
     connection_id = request.user.connection_id
     payload = { "connection_id": connection_id, "data_agreement_id": data_agreement_id }
