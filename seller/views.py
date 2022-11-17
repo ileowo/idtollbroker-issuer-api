@@ -54,16 +54,14 @@ def get_tender(request, tender_id):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["POST"]) 
 def verify_certificate(request,tender_id,requirement_id):
-    #organisation_id = "6364ee3781f7df00012cdaba"
     organisation_id = config.PROCUREMENT_PORTAL_ORG_ID
-    print(organisation_id)
     body = request.data
     data_agreement_id = body.get("data_agreement_id", None)
     user = request.user
     connection_id = user.connection_id
     payload = { "connection_id": connection_id, "data_agreement_id": data_agreement_id }
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/present-proof/data-agreement-negotiation/offer"
-    authorization_header = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzY0ZWUwNjgxZjdkZjAwMDEyY2RhYjkiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5ODY2MzI5N30.XAgBDTmlJwofuCF_P-rLoVxTBeJuKQYKtYhiyji1kS0"
+    authorization_header = config.PROCUREMENT_PORTAL_API_KEY
     response = requests.post(url,json=payload, headers={"Authorization": authorization_header})
     if response.status_code == status.HTTP_200_OK:
         response = json.loads(response.text)

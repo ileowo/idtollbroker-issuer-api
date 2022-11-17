@@ -7,7 +7,7 @@ from constance import config
 
 from certificate.models import Certificates
 
-authorization = "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10"
+authorization = config.BYGG_AB_API_KEY
 
 
 @csrf_exempt
@@ -20,9 +20,7 @@ def get_certificates(request):
         'certificates': certificates,
     }, status=status.HTTP_200_OK)
     """
-    #organisation_id = "6343ecbb6de5d70001ac038e"
     organisation_id = config.BYGG_AB_ORG_ID
-    print(organisation_id)
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials?count=1000"
     response = requests.get(
         url,
@@ -39,13 +37,16 @@ def get_certificates(request):
 @api_view(["GET"])
 def request_certificates(request):
     url = "https://cloudagent.igrant.io/v1/624c025d7eff6f000164bb94/admin/issue-credential/send-offer"
+    cred_def_id = config.WALLET_USER_ISSUANCE_CONFIG['CREDENTIAL_DEFINITION_ID']
+    connection_id = config.WALLET_USER_ISSUANCE_CONFIG['CONNECTION_ID']
+    data_agreement_id = config.WALLET_USER_ISSUANCE_CONFIG['DATA_AGREEMENT_ID']
     payload = {
         "comment": "Certificate of registration and register extract",
         "auto_remove": False,
         "trace": False,
-        "cred_def_id": "GsMTo44BktRxUFjRVxR1nL:3:CL:3878:default",
-        "connection_id": "1ea91d13-4d58-46d3-acc1-ef9f9fd01c75",
-        "data_agreement_id": "e53700ae-d782-470d-ad1c-98ca72fcdf92",
+        "cred_def_id": cred_def_id,
+        "connection_id": connection_id,
+        "data_agreement_id": data_agreement_id,
         "credential_preview": {
             "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
             "attributes": [

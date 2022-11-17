@@ -150,6 +150,20 @@ python-versions = ">=3.5"
 Django = ">=2.2"
 
 [[package]]
+name = "django-picklefield"
+version = "3.0"
+description = "Pickled object field for Django"
+category = "main"
+optional = false
+python-versions = ">=3"
+
+[package.dependencies]
+Django = ">=1.11"
+
+[package.extras]
+tests = ["tox"]
+
+[[package]]
 name = "django-rest-auth"
 version = "0.9.5"
 description = "Create a set of REST API endpoints for Authentication and Registration"
@@ -467,7 +481,7 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "c55e5614365fec82860271b9ba82b91f52911a0ed952f02d9b32668e6e7ce573"
+content-hash = "0320bbb05b5190aa2b823c054aab09f0bda149399445fa913cfb131ce560cb49"
 
 [metadata.files]
 asgiref = [
@@ -521,6 +535,10 @@ django-heroku = [
 django-jsonfield-backport = [
     {file = "django-jsonfield-backport-1.0.5.tar.gz", hash = "sha256:40c39b1f1bade47bd2715664de14983f2e0a96175f65abbad2688029c255c685"},
     {file = "django_jsonfield_backport-1.0.5-py3-none-any.whl", hash = "sha256:727b402bad632e38539b489e48aefa6ffe03cedba76ac1f11b455423b3225a2d"},
+]
+django-picklefield = [
+    {file = "django-picklefield-3.0.tar.gz", hash = "sha256:28aa97dded0bfd14f067462638bd8c0c70c50da17ab265aee74a30f47fc2b024"},
+    {file = "django_picklefield-3.0-py3-none-any.whl", hash = "sha256:e057e32a560e34250a1dea39e1a4d02a175139f3aa82f4349e280ae48bd8409b"},
 ]
 django-rest-auth = [
     {file = "django-rest-auth-0.9.5.tar.gz", hash = "sha256:f11e12175dafeed772f50d740d22caeab27e99a3caca24ec65e66a8d6de16571"},

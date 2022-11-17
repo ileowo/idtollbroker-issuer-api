@@ -172,7 +172,18 @@ ISSUER_AGENT_URL = "https://ds-agent.igrant.io"
 COMPANY_AGENT_URL = "https://dus-agent.igrant.io"
 
 CONSTANCE_CONFIG = {
-    'BYGG_AB_ORG_ID': ("6343ecbb6de5d70001ac038e",'Org id of Bygg ab agent'),
+    'BYGG_AB_ORG_ID': ("6343ecbb6de5d70001ac038e",'Organisation id of Bygg ab agent'),
     'PROCUREMENT_PORTAL_ORG_ID': ("6364ee3781f7df00012cdaba", 'Organisation id of Procurement Portal agent'),
-    'BOLAGSVERKET_ORG_ID': ("624c025d7eff6f000164bb94", 'Organisation id of Bolagsverket agent')
+    'BOLAGSVERKET_ORG_ID': ("624c025d7eff6f000164bb94", 'Organisation id of Bolagsverket agent'),
+    'BYGG_AB_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10", 'Api key for authentication towards cloud agent'),
+    'BOLAGSVERKET_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs", 'Api key for authentication towards cloud agent'),
+    'PROCUREMENT_PORTAL_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzY0ZWUwNjgxZjdkZjAwMDEyY2RhYjkiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5ODY2MzI5N30.XAgBDTmlJwofuCF_P-rLoVxTBeJuKQYKtYhiyji1kS0", 'Api key for authentication towards cloud agent'),
+    'WALLET_USER_ISSUANCE_CONFIG': (
+        {
+            'CREDENTIAL_DEFINITION_ID': "GsMTo44BktRxUFjRVxR1nL:3:CL:3878:default",
+            'CONNECTION_ID': "1ea91d13-4d58-46d3-acc1-ef9f9fd01c75",
+            'DATA_AGREEMENT_ID': "e53700ae-d782-470d-ad1c-98ca72fcdf92"
+        },
+        'Wallet user issuance config'),
+    'USER_VERIFICATION_DATA_AGREEMENT_ID': ("a2f8d245-fb3d-4b19-bd2d-86f2346acc88", 'User verification data agreement id')
 }
