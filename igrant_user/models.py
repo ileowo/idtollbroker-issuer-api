@@ -28,7 +28,7 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    fullname = models.CharField(max_length=250,unique=True,null=True,blank=True)
+    fullname = models.CharField(max_length=250,null=True,blank=True)
     address = models.CharField(max_length=250,null=True,blank=True)
     country = models.CharField(max_length=250,null=True,blank=True)
     user_type = models.CharField(
