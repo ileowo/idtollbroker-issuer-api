@@ -31,7 +31,7 @@ def get_tender(request, tender_id):
     requirement_data = serializer.data
     for requirement in requirement_data:
         try:
-            response = Responses.objects.get(tender=tender.id,requirements=requirement["id"])
+            response = Responses.objects.get(tender=tender.id,requirements=requirement["id"],supplier=user)
             if response.presentation_state == "verified":
                 requirement["submission_status"] = True
             else:
