@@ -60,7 +60,7 @@ def get_tender(request, tender_id):
     document = []
     for requirement in requirementData:
         try:
-            response = Responses.objects.get(tender=tender.id,requirements=requirement["id"])
+            response = Responses.objects.filter(tender=tender.id,requirements=requirement["id"]).first()
         except Responses.DoesNotExist:
             response = None
         if response:
