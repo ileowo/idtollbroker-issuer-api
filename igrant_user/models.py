@@ -16,7 +16,7 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
 
     class Orgs(models.TextChoices):
         DEFAULT = "NIL", _("Nil")
-        RAKSA_OY = "RAKSA_OY", _("Raksa OY, Finland")
+        RAKSA_OY = "RAKSA_OY", _("Raksa Oy, Finland")
         BYGG_AB = "BYGG_AB", _("Bygg AB, Sweden")
         BOLAGSVERKET = "BOLAGSVERKET_AB", _("Bolagsverket AB, Sweden")
 
