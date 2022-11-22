@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from igrant_user.models import IGrantUser
+from buyer.models import Tender, Requirement
 from seller.models import Responses
+from constance import config
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -55,4 +57,16 @@ def verify_certificate(request):
             if presentation_state == "verified":
                 user.org_verification_status = "VERIFIED"
                 user.save()
+                if user.user_type == "SELLER":
+                    tender = Tender.objects.first()
+                    if tender:
+                        requirements = Requirement.objects.filter(tender_id=tender.id)
+                        data_agreement_id = config.USER_VERIFICATION_DATA_AGREEMENT_ID
+                        for requirement in requirements:
+                            if requirement.data_agreement_id == data_agreement_id:
+                                (responses, _) = Responses.objects.get_or_create(tender=tender,requirements=requirement,supplier=user)
+                                responses.presentation_exchange_id = presentation_exchange_id
+                                responses.presentation_state = presentation_state
+                                responses.presentation_record = presentation_record
+                                responses.save()
     return HttpResponse(status=status.HTTP_200_OK)
