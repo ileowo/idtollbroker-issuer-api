@@ -27,7 +27,7 @@ def get_tender(request, tender_id):
     buyer_address = buyer.address
     buyer_country = buyer.country
     buyer_presentation_record = buyer.presentation_record
-    requirements = Requirement.objects.filter(tender_id=tender.id)
+    requirements = Requirement.objects.filter(tender_id=tender.id).order_by("id")
     serializer = RequirementSerializer(requirements, many=True)
     requirement_data = serializer.data
     for requirement in requirement_data:

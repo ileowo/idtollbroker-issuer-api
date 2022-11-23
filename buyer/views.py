@@ -24,14 +24,14 @@ def list_tenders(request):
     for tender in tenders:
         serializer = TenderSerializer(tender)
         tenderData = serializer.data
-        requirement = Requirement.objects.filter(tender_id=tender.id)
+        requirement = Requirement.objects.filter(tender_id=tender.id).order_by("id")
         serializer = RequirementSerializer(requirement,many=True)
         requirementData = serializer.data
         tenderData['requirement'] = requirementData 
         document = []
         for requirement in requirementData:
             try:
-                response = Responses.objects.get(tender=tender.id,requirements=requirement["id"])
+                response = Responses.objects.filter(tender=tender.id,requirements=requirement["id"]).first()
             except Responses.DoesNotExist:
                 response = None
             if response:
@@ -53,7 +53,7 @@ def get_tender(request, tender_id):
     tender = get_object_or_404(Tender, pk=tender_id)
     serializer = TenderSerializer(tender)
     tenderData = serializer.data
-    requirement = Requirement.objects.filter(tender_id=tender.id)
+    requirement = Requirement.objects.filter(tender_id=tender.id).order_by("id")
     serializer = RequirementSerializer(requirement, many=True)
     requirementData = serializer.data
     tenderData['requirement'] = requirementData
@@ -83,7 +83,7 @@ def publish_tender(request, tender_id):
     tender.save()
     serializer = TenderSerializer(tender)
     tenderData = serializer.data
-    requirement = Requirement.objects.filter(tender_id=tender.id)
+    requirement = Requirement.objects.filter(tender_id=tender.id).order_by("id")
     serializer = RequirementSerializer(requirement,many=True)
     requirementData = serializer.data
     tenderData['requirement'] = requirementData 
