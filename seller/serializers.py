@@ -9,3 +9,10 @@ class ResponsesSerializer(serializers.Serializer):
     presentation_exchange_id = serializers.CharField(max_length=250)
     presentation_state  = serializers.CharField(max_length=250)
     presentation_record = serializers.JSONField()
+
+
+class ResponseSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Responses
+        fields = ['id', 'requirements', 'presentation_exchange_id', 'presentation_state', 'presentation_record',]

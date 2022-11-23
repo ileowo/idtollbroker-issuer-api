@@ -23,6 +23,7 @@ class Tender(models.Model):
 class Requirement(models.Model):
     id = models.BigIntegerField(primary_key=True,unique = True)
     issuer = models.CharField(max_length=250,null=True,blank=True)
+    issuer_logo_url = models.CharField(max_length=512,null=True,blank=True)
     data_agreement_id = models.CharField(max_length=250,unique=True,null=True,blank=True)
     category = models.CharField(max_length=256)
     requirement_header = models.CharField(max_length=256)
