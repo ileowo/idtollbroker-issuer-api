@@ -55,8 +55,8 @@ def get_tender(request, tender_id):
 @api_view(["POST"]) 
 def verify_certificate(request,tender_id,requirement_id):
     organisation_id = config.PROCUREMENT_PORTAL_ORG_ID
-    body = request.data
-    data_agreement_id = body.get("data_agreement_id", None)
+    requirement = get_object_or_404(Requirement, pk=requirement_id)
+    data_agreement_id = requirement.data_agreement_id
     user = request.user
     connection_id = user.connection_id
     payload = { "connection_id": connection_id, "data_agreement_id": data_agreement_id }
