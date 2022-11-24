@@ -119,17 +119,16 @@ def v2_get_tender(request, tender_id):
     res_tender = serialize_to_dict(queryset=tender,serializer_cls=TenderSerializer)
     requirements = Requirement.objects.filter(tender_id=tender.id).order_by("id")
     res_tender['requirement'] = serialize_to_dict(queryset=requirements,serializer_cls=RequirementSerializer,many=True)
-    general_requirement = requirements.filter(category="General").first()
     res_supplier_responses = []
-    responses = Responses.objects.filter(tender=tender.id).order_by("id")
     verification_status = False
     for supplier in suppliers:
         responses = Responses.objects.filter(tender=tender.id,supplier=supplier).order_by("id")
-        responses_dict = serialize_to_dict(queryset=responses,serializer_cls=ResponseSerializer,many=True)
-        verification_status = responses.filter(requirements=general_requirement,presentation_state="verified").exists()
-        supplier_dict = serialize_to_dict(queryset=supplier,serializer_cls=IGrantUsersSerializer)
-        responses = { "supplier": supplier_dict, "verification_status": verification_status, "responses": responses_dict}
-        res_supplier_responses.append(responses)
+        if responses:
+            responses_dict = serialize_to_dict(queryset=responses,serializer_cls=ResponseSerializer,many=True)
+            verification_status = not responses.exclude(presentation_state="verified").exists()
+            supplier_dict = serialize_to_dict(queryset=supplier,serializer_cls=IGrantUsersSerializer)
+            responses = { "supplier": supplier_dict, "verification_status": verification_status, "responses": responses_dict}
+            res_supplier_responses.append(responses)
     res_tender['responses'] = res_supplier_responses
     return JsonResponse(res_tender)
 
@@ -145,17 +144,16 @@ def v2_list_tenders(request):
         res_tender = serialize_to_dict(queryset=tender,serializer_cls=TenderSerializer)
         requirements = Requirement.objects.filter(tender_id=tender.id).order_by("id")
         res_tender['requirement'] = serialize_to_dict(queryset=requirements,serializer_cls=RequirementSerializer,many=True)
-        general_requirement = requirements.filter(category="General").first()
         res_supplier_responses = []
-        responses = Responses.objects.filter(tender=tender.id).order_by("id")
         verification_status = False
         for supplier in suppliers:
             responses = Responses.objects.filter(tender=tender.id,supplier=supplier).order_by("id")
-            responses_dict = serialize_to_dict(queryset=responses,serializer_cls=ResponseSerializer,many=True)
-            verification_status = responses.filter(requirements=general_requirement,presentation_state="verified").exists()
-            supplier_dict = serialize_to_dict(queryset=supplier,serializer_cls=IGrantUsersSerializer)
-            responses = { "supplier": supplier_dict, "verification_status": verification_status, "responses": responses_dict}
-            res_supplier_responses.append(responses)
+            if responses:
+                responses_dict = serialize_to_dict(queryset=responses,serializer_cls=ResponseSerializer,many=True)
+                verification_status = not responses.exclude(presentation_state="verified").exists()
+                supplier_dict = serialize_to_dict(queryset=supplier,serializer_cls=IGrantUsersSerializer)
+                responses = { "supplier": supplier_dict, "verification_status": verification_status, "responses": responses_dict}
+                res_supplier_responses.append(responses)
         res_tender['responses'] = res_supplier_responses
         result.append(res_tender)
     return JsonResponse(result,safe=False)
