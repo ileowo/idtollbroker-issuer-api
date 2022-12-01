@@ -125,7 +125,7 @@ def v2_get_tender(request, tender_id):
         responses = Responses.objects.filter(tender=tender.id,supplier=supplier).order_by("id")
         if responses:
             responses_dict = serialize_to_dict(queryset=responses,serializer_cls=ResponseSerializer,many=True)
-            verification_status = not responses.exclude(presentation_state="verified").exists()
+            verification_status = not responses.exclude(presentation_state="verified").exists() if responses.count() == requirements.count() else False
             supplier_dict = serialize_to_dict(queryset=supplier,serializer_cls=IGrantUsersSerializer)
             responses = { "supplier": supplier_dict, "verification_status": verification_status, "responses": responses_dict}
             res_supplier_responses.append(responses)
@@ -150,7 +150,7 @@ def v2_list_tenders(request):
             responses = Responses.objects.filter(tender=tender.id,supplier=supplier).order_by("id")
             if responses:
                 responses_dict = serialize_to_dict(queryset=responses,serializer_cls=ResponseSerializer,many=True)
-                verification_status = not responses.exclude(presentation_state="verified").exists()
+                verification_status = not responses.exclude(presentation_state="verified").exists() if responses.count() == requirements.count() else False
                 supplier_dict = serialize_to_dict(queryset=supplier,serializer_cls=IGrantUsersSerializer)
                 responses = { "supplier": supplier_dict, "verification_status": verification_status, "responses": responses_dict}
                 res_supplier_responses.append(responses)
