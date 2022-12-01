@@ -21,6 +21,7 @@ class IGrantUser(AbstractBaseUser, PermissionsMixin):
         BOLAGSVERKET = "BOLAGSVERKET_AB", _("Bolagsverket AB, Sweden")
         STHLM_CONSTRUCTIONS_AB = "STHLM_CONSTRUCTIONS_AB", _("Sthlm Constructions AB")
         RAPID_BUILDERS = "RAPID_BUILDERS", _("Rapid Builders")
+        DP_BUILDERS = "DP_BUILDERS", _("DP Builders")
 
     class OrgsVerificationStatus(models.TextChoices):
         UNVERIFIED = "UNVERIFIED", _("Unverified")
