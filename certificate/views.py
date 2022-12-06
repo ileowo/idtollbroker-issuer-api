@@ -36,42 +36,7 @@ def get_certificates(request):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def request_certificates(request):
-    certificate = request.GET["certificate"]
-    if (certificate != "real_estate_insurance" and certificate != "ecolabel"):
-        organisation_id = config.BOLAGSVERKET_ORG_ID
-        url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/issue-credential/send-offer"
-        api_key = config.BYGG_AB_API_KEY
-        cred_def_id = config.WALLET_USER_ISSUANCE_CONFIG['CREDENTIAL_DEFINITION_ID']
-        connection_id = config.WALLET_USER_ISSUANCE_CONFIG['CONNECTION_ID']
-        data_agreement_id = config.WALLET_USER_ISSUANCE_CONFIG['DATA_AGREEMENT_ID']
-        payload = {
-            "comment": "Certificate of registration and register extract",
-            "auto_remove": False,
-            "trace": False,
-            "cred_def_id": cred_def_id,
-            "connection_id": connection_id,
-            "data_agreement_id": data_agreement_id,
-            "credential_preview": {
-                "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
-                "attributes": [
-                    {"name": "name", "value": "Bygg AB"},
-                    {"name": "legalForm", "value": "Aktiebolag"},
-                    {"name": "activity", "value": "Construction Industry"},
-                    {"name": "registrationDate", "value": "2005-10-08"},
-                    {"name": "legalStatus", "value": "ACTIVE"},
-                    {
-                        "name": "registeredAddress.fullAddress",
-                        "value": "Sveavägen 48, 111 34 Stockholm, Sweden",
-                    },
-                    {"name": "registeredAddress.thoroughFare", "value": "Sveavägen"},
-                    {"name": "registeredAddress.locatorDesignator", "value": "48"},
-                    {"name": "registeredAddress.postCode", "value": "111 34"},
-                    {"name": "registeredAddress.postName", "value": "Stockholm"},
-                    {"name": "registeredAddress.adminUnitLevel1", "value": "SE"},
-                ],
-            },
-            "auto_issue": True,
-        }
+    certificate = request.GET.get("certificate")
     if certificate == "real_estate_insurance":
         organisation_id = config.FRIA_FORSAKRINGAR_ORG_ID
         url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/issue-credential/send-offer"
@@ -112,7 +77,7 @@ def request_certificates(request):
             "auto_issue": True,
             "data_agreement_id": real_estate_insurance_data_agreement_id
         }
-    if certificate == "ecolabel":
+    elif certificate == "ecolabel":
         organisation_id = config.ORNEN_ORG_ID
         url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/issue-credential/send-offer"
         api_key = config.ORNEN_API_KEY
@@ -139,6 +104,42 @@ def request_certificates(request):
             "auto_issue": True,
             "data_agreement_id": ecolabel_data_agreement_id
         }
+    else:
+        organisation_id = config.BOLAGSVERKET_ORG_ID
+        url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/issue-credential/send-offer"
+        api_key = config.BYGG_AB_API_KEY
+        cred_def_id = config.WALLET_USER_ISSUANCE_CONFIG['CREDENTIAL_DEFINITION_ID']
+        connection_id = config.WALLET_USER_ISSUANCE_CONFIG['CONNECTION_ID']
+        data_agreement_id = config.WALLET_USER_ISSUANCE_CONFIG['DATA_AGREEMENT_ID']
+        payload = {
+            "comment": "Certificate of registration and register extract",
+            "auto_remove": False,
+            "trace": False,
+            "cred_def_id": cred_def_id,
+            "connection_id": connection_id,
+            "data_agreement_id": data_agreement_id,
+            "credential_preview": {
+                "@type": "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/issue-credential/1.0/credential-preview",
+                "attributes": [
+                    {"name": "name", "value": "Bygg AB"},
+                    {"name": "legalForm", "value": "Aktiebolag"},
+                    {"name": "activity", "value": "Construction Industry"},
+                    {"name": "registrationDate", "value": "2005-10-08"},
+                    {"name": "legalStatus", "value": "ACTIVE"},
+                    {
+                        "name": "registeredAddress.fullAddress",
+                        "value": "Sveavägen 48, 111 34 Stockholm, Sweden",
+                    },
+                    {"name": "registeredAddress.thoroughFare", "value": "Sveavägen"},
+                    {"name": "registeredAddress.locatorDesignator", "value": "48"},
+                    {"name": "registeredAddress.postCode", "value": "111 34"},
+                    {"name": "registeredAddress.postName", "value": "Stockholm"},
+                    {"name": "registeredAddress.adminUnitLevel1", "value": "SE"},
+                ],
+            },
+            "auto_issue": True,
+        }
+
     response = requests.post(
         url,
         headers={
