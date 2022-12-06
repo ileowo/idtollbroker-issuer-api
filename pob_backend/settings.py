@@ -182,7 +182,13 @@ CONSTANCE_CONFIG = {
         {
             'CREDENTIAL_DEFINITION_ID': "GsMTo44BktRxUFjRVxR1nL:3:CL:3878:default",
             'CONNECTION_ID': "1ea91d13-4d58-46d3-acc1-ef9f9fd01c75",
-            'DATA_AGREEMENT_ID': "e53700ae-d782-470d-ad1c-98ca72fcdf92"
+            'DATA_AGREEMENT_ID': "e53700ae-d782-470d-ad1c-98ca72fcdf92",
+            'REAL_ESTATE_INSURANCE_CREDENTIAL_DEFINITION_ID': "Nej8DViZyVvfyaLqGgWUw2:3:CL:4737:default",
+            'REAL_ESTATE_INSURANCE_CONNECTION_ID': "802d5b95-3f7f-4182-909b-e4e07bf21c11",
+            'REAL_ESTATE_INSURANCE_DATA_AGREEMENT_ID': "36375d51-b0b8-44dc-a66e-b64294093ce2",
+            'ECOLABEL_CREDENTIAL_DEFINITION_ID': "4Z1ZNeAdeX8q6ukZ7NopTZ:3:CL:4741:default",
+            'ECOLABEL_CONNECTION_ID': "33c56bcc-ca3d-4100-96ff-3d48b07a4586",
+            'ECOLABEL_DATA_AGREEMENT_ID': "9c297f85-92de-4be3-995a-fa39123eaa3e",
         },
         'Wallet user issuance config',
         'json_field',
@@ -191,7 +197,11 @@ CONSTANCE_CONFIG = {
     'BYGG_AB_ORG_ID': ("6343ecbb6de5d70001ac038e",'Organisation id of Bygg ab agent'),
     'PROCUREMENT_PORTAL_ORG_ID': ("6364ee3781f7df00012cdaba", 'Organisation id of Procurement Portal agent'),
     'BOLAGSVERKET_ORG_ID': ("624c025d7eff6f000164bb94", 'Organisation id of Bolagsverket agent'),
+    'FRIA_FORSAKRINGAR_ORG_ID': ("638f374f2f5d17000144320b", 'Organisation id of Fria försäkringar agent'),
+    'ORNEN_ORG_ID': ("638f5b292f5d170001443210", 'Organisation id of Örnen agent'),
     'BYGG_AB_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10", 'Api key for authentication towards cloud agent'),
     'BOLAGSVERKET_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs", 'Api key for authentication towards cloud agent'),
     'PROCUREMENT_PORTAL_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzY0ZWUwNjgxZjdkZjAwMDEyY2RhYjkiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5ODY2MzI5N30.XAgBDTmlJwofuCF_P-rLoVxTBeJuKQYKtYhiyji1kS0", 'Api key for authentication towards cloud agent'),
+    'FRIA_FORSAKRINGAR_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10", 'Api key for authentication towards cloud agent'),
+    'ORNEN_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10", 'Api key for authentication towards cloud agent'),
 }
