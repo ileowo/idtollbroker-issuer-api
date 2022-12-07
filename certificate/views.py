@@ -135,6 +135,7 @@ def request_certificates(request):
                     {"name": "registeredAddress.postCode", "value": "111 34"},
                     {"name": "registeredAddress.postName", "value": "Stockholm"},
                     {"name": "registeredAddress.adminUnitLevel1", "value": "SE"},
+                    {"name": "orgNumber", "value": "123400-7899"},
                 ],
             },
             "auto_issue": True,
