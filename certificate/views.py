@@ -66,7 +66,7 @@ def request_certificates(request):
                     },
                     {
                         "name": "Name",
-                        "value": "Solceller AB"
+                        "value": "Bygg AB"
                     },
                     {
                         "name": "Validity date",
