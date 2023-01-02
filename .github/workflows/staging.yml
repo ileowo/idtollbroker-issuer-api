@@ -11,14 +11,14 @@ env:
   GKE_EMAIL: ${{ secrets.GKE_EMAIL_JENKINS }}
   GITHUB_SHA: ${{ github.sha }}
   GKE_ZONE: europe-west3-c
-  GKE_CLUSTER: igrant-cluster
+  GKE_CLUSTER: autopilot-cluster-1
   IMAGE: igrant-pob-backend
   REGISTRY_HOSTNAME: eu.gcr.io
 
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,6 +38,7 @@ jobs:
       - uses: ThomasKliszowski/setup-kubectl@v1
         with:
           kube-config: ${{ secrets.KUBE_CONFIG_DATA }}
+          kube-version: 1.25.4
 
       # Configure docker to use the gcloud command-line tool as a credential helper
       - run: |
