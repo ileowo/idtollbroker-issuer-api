@@ -7,8 +7,6 @@ from constance import config
 
 from certificate.models import Certificates
 
-authorization = config.BYGG_AB_API_KEY
-
 
 @csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
@@ -21,6 +19,7 @@ def get_certificates(request):
     }, status=status.HTTP_200_OK)
     """
     organisation_id = config.BYGG_AB_ORG_ID
+    authorization = config.BYGG_AB_API_KEY
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credentials?count=1000"
     response = requests.get(
         url,
@@ -200,6 +199,7 @@ def request_certificates(request):
 @api_view(["GET"])
 def check_certificate(request):
     credential_exchange_id = request.GET["credential_exchange_id"]
+    authorization = config.BYGG_AB_API_KEY
     url = f"https://cloudagent.igrant.io/v1/624c025d7eff6f000164bb94/admin/issue-credential/records/{credential_exchange_id}"
     response = requests.get(
         url,
@@ -216,6 +216,7 @@ def check_certificate(request):
 @api_view(["GET"])
 def get_certificate_schemas(request):
     organisation_id = request.GET["organisation_id"]
+    authorization = config.BYGG_AB_API_KEY
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/v1/data-agreements?method_of_use=data-source&publish_flag=true&page=1&page_size=1000000"
     response = requests.get(
         url,
@@ -233,6 +234,7 @@ def get_certificate_schemas(request):
 def get_certificate_schema_attributes(request):
     organisation_id = request.GET["organisation_id"]
     schema_id = request.GET["schema_id"]
+    authorization = config.BYGG_AB_API_KEY
     url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/schemas/{schema_id}"
     print(url)
     response = requests.get(
@@ -249,6 +251,7 @@ def get_certificate_schema_attributes(request):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["DELETE"])
 def delete_certificate(request):
+    authorization = config.BYGG_AB_API_KEY
     organisation_id = request.GET["organisation_id"]
     referent = request.GET["referent"]
     url = (
