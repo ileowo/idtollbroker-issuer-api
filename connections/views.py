@@ -19,7 +19,7 @@ import requests
 def get_default_wallet(request):
     organisation_id = config.BOLAGSVERKET_ORG_ID
     authorization = config.BOLAGSVERKET_API_KEY
-    url = f"https://staging-api.igrant.io/v1/organizations/{organisation_id}/aries-cloudagent"
+    url = f"https://staging-api.igrant.io/v2/config/digital-wallet"
     response = requests.get(
         url,
         headers={
@@ -44,7 +44,7 @@ def get_endpoint(request):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_connections(request):
-    url = "https://staging-api.igrant.io/v1/organizations/624c025d7eff6f000164bb94/aries-cloudagent"
+    url = "https://staging-api.igrant.io/v2/config/digital-wallet"
     authorization_header = config.BOLAGSVERKET_API_KEY
     response = requests.get(url, headers={"Authorization": authorization_header})
     return Response(response.json(), status=response.status_code)

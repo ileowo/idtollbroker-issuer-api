@@ -16,8 +16,8 @@ def receive_invitation(request):
     
     response = request.body
     response = json.loads(response)
-    connection_id = response["connection_id"]
-    connection_state = response["state"]
+    connection_id = response["data"]["connection"]["connectionId"]
+    connection_state = response["data"]["connection"]["state"]
     user = get_object_or_404(IGrantUser,connection_id = connection_id)
     if user.connection_state == "active":
         return HttpResponse(status=status.HTTP_200_OK)
@@ -32,8 +32,8 @@ def receive_invitation(request):
 def verify_certificate(request):
     response = request.body
     response = json.loads(response)
-    presentation_exchange_id = response["presentation_exchange_id"]
-    presentation_state = response["state"]
+    presentation_exchange_id = response["data"]["presentation"]["presentationExchangeId"]
+    presentation_state = response["data"]["presentation"]["state"]
     presentation_record = response
     try:
         user = IGrantUser.objects.get(presentation_exchange_id = presentation_exchange_id)
