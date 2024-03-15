@@ -34,7 +34,7 @@ def verify_certificate(request):
     response = json.loads(response)
     presentation_exchange_id = response["data"]["presentation"]["presentationExchangeId"]
     presentation_state = response["data"]["presentation"]["state"]
-    presentation_record = response
+    presentation_record = response["data"]["presentation"]
     try:
         user = IGrantUser.objects.get(presentation_exchange_id = presentation_exchange_id)
     except IGrantUser.DoesNotExist:
