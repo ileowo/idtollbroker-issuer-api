@@ -1,22 +1,14 @@
 # syntax=docker/dockerfile:1
-FROM python:3.10.6-slim-buster
+FROM python:3.8
 
-# The environment variable ensures that the python output is set straight
-# to the terminal without buffering it first
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
-
-# Update and install dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends gcc git libpq-dev build-essential \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 RUN pip install poetry==1.1.15
 
 WORKDIR /app
 
 COPY pyproject.toml /app/
-COPY poetry.lock /app/
 
 RUN poetry config virtualenvs.create false \
     && poetry install --no-dev --no-interaction --no-ansi
