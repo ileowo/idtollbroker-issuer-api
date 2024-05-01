@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'constance',
-    'constance.backends.database',
+    "constance",
+    "constance.backends.database",
     "igrant_user",
     "connections",
     "certificate",
@@ -89,7 +89,7 @@ WSGI_APPLICATION = "pob_backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 
 
 DATABASES = {
@@ -141,7 +141,7 @@ STATIC_URL = "/static/"
 AUTH_USER_MODEL = "igrant_user.IGrantUser"
 
 REST_AUTH_SERIALIZERS = {
-    'TOKEN_SERIALIZER': 'igrant_user.serializers.CustomTokenSerializer'
+    "TOKEN_SERIALIZER": "igrant_user.serializers.CustomTokenSerializer"
 }
 
 REST_FRAMEWORK = {
@@ -172,36 +172,61 @@ ISSUER_AGENT_URL = "https://ds-agent.igrant.io"
 COMPANY_AGENT_URL = "https://dus-agent.igrant.io"
 
 
-CONSTANCE_ADDITIONAL_FIELDS = {
-    'json_field': ['pob_backend.fields.JsonField']
-}
+CONSTANCE_ADDITIONAL_FIELDS = {"json_field": ["pob_backend.fields.JsonField"]}
 
 
 CONSTANCE_CONFIG = {
-    'WALLET_USER_ISSUANCE_CONFIG': (
+    "WALLET_USER_ISSUANCE_CONFIG": (
         {
-            'CREDENTIAL_DEFINITION_ID': "H3DW1MUWZyBkP5LG4rTYRH:3:CL:4763:default",
-            'CONNECTION_ID': "1ea91d13-4d58-46d3-acc1-ef9f9fd01c75",
-            'DATA_AGREEMENT_ID': "e53700ae-d782-470d-ad1c-98ca72fcdf92",
-            'REAL_ESTATE_INSURANCE_CREDENTIAL_DEFINITION_ID': "Nej8DViZyVvfyaLqGgWUw2:3:CL:4737:default",
-            'REAL_ESTATE_INSURANCE_CONNECTION_ID': "802d5b95-3f7f-4182-909b-e4e07bf21c11",
-            'REAL_ESTATE_INSURANCE_DATA_AGREEMENT_ID': "36375d51-b0b8-44dc-a66e-b64294093ce2",
-            'ECOLABEL_CREDENTIAL_DEFINITION_ID': "4Z1ZNeAdeX8q6ukZ7NopTZ:3:CL:4741:default",
-            'ECOLABEL_CONNECTION_ID': "33c56bcc-ca3d-4100-96ff-3d48b07a4586",
-            'ECOLABEL_DATA_AGREEMENT_ID': "9c297f85-92de-4be3-995a-fa39123eaa3e",
+            "CREDENTIAL_DEFINITION_ID": "H3DW1MUWZyBkP5LG4rTYRH:3:CL:88:default",
+            "CONNECTION_ID": "1ea91d13-4d58-46d3-acc1-ef9f9fd01c75",
+            "DATA_AGREEMENT_ID": "e53700ae-d782-470d-ad1c-98ca72fcdf92",
+            "REAL_ESTATE_INSURANCE_CREDENTIAL_DEFINITION_ID": "Nej8DViZyVvfyaLqGgWUw2:3:CL:84:default",
+            "REAL_ESTATE_INSURANCE_CONNECTION_ID": "802d5b95-3f7f-4182-909b-e4e07bf21c11",
+            "REAL_ESTATE_INSURANCE_DATA_AGREEMENT_ID": "36375d51-b0b8-44dc-a66e-b64294093ce2",
+            "ECOLABEL_CREDENTIAL_DEFINITION_ID": "4Z1ZNeAdeX8q6ukZ7NopTZ:3:CL:82:default",
+            "ECOLABEL_CONNECTION_ID": "33c56bcc-ca3d-4100-96ff-3d48b07a4586",
+            "ECOLABEL_DATA_AGREEMENT_ID": "9c297f85-92de-4be3-995a-fa39123eaa3e",
         },
-        'Wallet user issuance config',
-        'json_field',
-        ),
-    'USER_VERIFICATION_DATA_AGREEMENT_ID': ("a2f8d245-fb3d-4b19-bd2d-86f2346acc88", 'User verification data agreement id'),
-    'BYGG_AB_ORG_ID': ("6343ecbb6de5d70001ac038e",'Organisation id of Bygg ab agent'),
-    'PROCUREMENT_PORTAL_ORG_ID': ("6364ee3781f7df00012cdaba", 'Organisation id of Procurement Portal agent'),
-    'BOLAGSVERKET_ORG_ID': ("624c025d7eff6f000164bb94", 'Organisation id of Bolagsverket agent'),
-    'FRIA_FORSAKRINGAR_ORG_ID': ("638f374f2f5d17000144320b", 'Organisation id of Fria försäkringar agent'),
-    'ORNEN_ORG_ID': ("638f5b292f5d170001443210", 'Organisation id of Örnen agent'),
-    'BYGG_AB_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzQzZWM0ZjZkZTVkNzAwMDFhYzAzOGQiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5NjUwMDAxOH0.8hSeQhWhU0xg8mbJbqNhx8OHHDF_PkJdNiRrAvgkjEs", 'Api key for authentication towards cloud agent'),
-    'BOLAGSVERKET_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTcxMTYyNTM2MH0.xcKD0fNRQa4plFqIdpmw6yZDerTMra5ogunwkcI02Vo", 'Api key for authentication towards cloud agent'),
-    'PROCUREMENT_PORTAL_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MzY0ZWUwNjgxZjdkZjAwMDEyY2RhYjkiLCJvcmdpZCI6IiIsImVudiI6IiIsImV4cCI6MTY5ODY2MzI5N30.XAgBDTmlJwofuCF_P-rLoVxTBeJuKQYKtYhiyji1kS0", 'Api key for authentication towards cloud agent'),
-    'FRIA_FORSAKRINGAR_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10", 'Api key for authentication towards cloud agent'),
-    'ORNEN_API_KEY': ("ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI2MjRjMDFlNzdlZmY2ZjAwMDE2NGJiOTIiLCJvcmdpZCI6IiIsImV4cCI6MTY4MDI1Mjk0Mn0.g6gCu7Mr1DompSXK8kQYhBUqRJ1PsOtahhxmB-klV10", 'Api key for authentication towards cloud agent'),
+        "Wallet user issuance config",
+        "json_field",
+    ),
+    "USER_VERIFICATION_DATA_AGREEMENT_ID": (
+        "a2f8d245-fb3d-4b19-bd2d-86f2346acc88",
+        "User verification data agreement id",
+    ),
+    "BYGG_AB_ORG_ID": ("6343ecbb6de5d70001ac038e", "Organisation id of Bygg ab agent"),
+    "PROCUREMENT_PORTAL_ORG_ID": (
+        "6364ee3781f7df00012cdaba",
+        "Organisation id of Procurement Portal agent",
+    ),
+    "BOLAGSVERKET_ORG_ID": (
+        "624c025d7eff6f000164bb94",
+        "Organisation id of Bolagsverket agent",
+    ),
+    "FRIA_FORSAKRINGAR_ORG_ID": (
+        "638f374f2f5d17000144320b",
+        "Organisation id of Fria försäkringar agent",
+    ),
+    "ORNEN_ORG_ID": ("638f5b292f5d170001443210", "Organisation id of Örnen agent"),
+    "BYGG_AB_API_KEY": (
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjM0M2VjYmI2ZGU1ZDcwMDAxYWMwMzhlIiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYzNDNlYzRmNmRlNWQ3MDAwMWFjMDM4ZCIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MTUwOH0.0_7YjWHJKIw_4uz0kMtX8wEVekI1nFFQ4B4DROJzbrk",
+        "Api key for authentication towards cloud agent",
+    ),
+    "BOLAGSVERKET_API_KEY": (
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjI0YzAyNWQ3ZWZmNmYwMDAxNjRiYjk0IiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYyNGMwMWU3N2VmZjZmMDAwMTY0YmI5MiIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MTY1M30.CDNiBuYxQLUR8BnlWDQzqjcetlhbtdX0h_i6nwzG8r4",
+        "Api key for authentication towards cloud agent",
+    ),
+    "PROCUREMENT_PORTAL_API_KEY": (
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjM2NGVlMzc4MWY3ZGYwMDAxMmNkYWJhIiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYzNjRlZTA2ODFmN2RmMDAwMTJjZGFiOSIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MTkzMn0.9sAVyKezP0bU5EwaBhpUSPd1XnHMnZiT2g_tGno-ulU",
+        "Api key for authentication towards cloud agent",
+    ),
+    "FRIA_FORSAKRINGAR_API_KEY": (
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjM4ZjM3NGYyZjVkMTcwMDAxNDQzMjBiIiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYzOGYzNzBjMmY1ZDE3MDAwMTQ0MzIwYSIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MTc0MH0.BnABIFzBIlrDcQ0QHJhVDCKMu8LMwmacFQoI1YFJmsQ",
+        "Api key for authentication towards cloud agent",
+    ),
+    "ORNEN_API_KEY": (
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjM4ZjViMjkyZjVkMTcwMDAxNDQzMjEwIiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYzOGY1YjEwMmY1ZDE3MDAwMTQ0MzIwZiIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MDc1OH0.JsljIkmmQ8AAMgs0Hf6yWnvvlOrHenlqLBzkpkzFM24",
+        "Api key for authentication towards cloud agent",
+    ),
 }
