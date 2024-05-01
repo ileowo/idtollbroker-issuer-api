@@ -247,7 +247,7 @@ def request_certificates(request):
         issue_credential_req_body = {
             "issuanceMode": "Deferred",
             "userPin": "",
-            "credential": {"type": ["LegalPersonalIdentificationData"]},
+            "credential": {"type": ["VerifiableLegalPersonalIdentificationData"]},
         }
         issuance_response = requests.post(
             "https://staging-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/issue",
