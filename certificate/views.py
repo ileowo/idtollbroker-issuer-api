@@ -20,6 +20,11 @@ def decode_header_and_claims_in_jwt(token: str) -> Tuple[dict, dict]:
     return (json.loads(headers_decoded), json.loads(claims_decoded))
 
 
+def decode_disclosure(disclosure: str):
+    disclosure_decoded = base64.b64decode(disclosure + "=" * (-len(disclosure) % 4))
+    return json.loads(disclosure_decoded)
+
+
 @csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
@@ -54,17 +59,25 @@ def get_certificates(request):
         )
         if credential_response.status_code == 200:
             credential_response_json = credential_response.json()
+            disclosures = credential_response_json.get("credential").split("~")
             _, claims = decode_header_and_claims_in_jwt(
                 credential_response_json.get("credential")
             )
-            credential = {
-                "legalName": claims.get("vc", {})
-                .get("credentialSubject")
-                .get("legalName", ""),
-                "identifier": claims.get("vc", {})
-                .get("credentialSubject")
-                .get("identifier", ""),
-            }
+            disclosure1 = decode_disclosure(disclosures[1])
+            disclosure2 = decode_disclosure(disclosures[2])
+
+            credential = {}
+            credential[disclosure1[1]] = disclosure1[2]
+            credential[disclosure2[1]] = disclosure2[2]
+
+            # credential = {
+            #     "legalName": claims.get("vc", {})
+            #     .get("credentialSubject")
+            #     .get("legalName", ""),
+            #     "identifier": claims.get("vc", {})
+            #     .get("credentialSubject")
+            #     .get("identifier", ""),
+            # }
             pending_oid4vc_certificate.credential = credential
             pending_oid4vc_certificate.status = "ready"
             pending_oid4vc_certificate.save()
@@ -248,6 +261,12 @@ def request_certificates(request):
             "issuanceMode": "Deferred",
             "userPin": "",
             "credential": {"type": ["VerifiableLegalPersonalIdentificationData"]},
+            "disclosureMapping": {
+                "credentialSubject": {
+                    "identifier": {"limitedDisclosure": True},
+                    "legalName": {"limitedDisclosure": True},
+                }
+            },
         }
         issuance_response = requests.post(
             "https://staging-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/issue",
