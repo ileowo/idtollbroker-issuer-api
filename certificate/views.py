@@ -59,28 +59,32 @@ def get_certificates(request):
         )
         if credential_response.status_code == 200:
             credential_response_json = credential_response.json()
-            disclosures = credential_response_json.get("credential").split("~")
-            _, claims = decode_header_and_claims_in_jwt(
-                credential_response_json.get("credential")
-            )
-            disclosure1 = decode_disclosure(disclosures[1])
-            disclosure2 = decode_disclosure(disclosures[2])
+            disclosures = credential_response_json.get("credential", "").split("~")
+            if len(disclosures) == 3:
+                _, claims = decode_header_and_claims_in_jwt(
+                    credential_response_json.get("credential")
+                )
+                disclosure1 = decode_disclosure(disclosures[1])
+                disclosure2 = decode_disclosure(disclosures[2])
 
-            credential = {}
-            credential[disclosure1[1]] = disclosure1[2]
-            credential[disclosure2[1]] = disclosure2[2]
+                credential = {}
+                credential[disclosure1[1]] = disclosure1[2]
+                credential[disclosure2[1]] = disclosure2[2]
 
-            # credential = {
-            #     "legalName": claims.get("vc", {})
-            #     .get("credentialSubject")
-            #     .get("legalName", ""),
-            #     "identifier": claims.get("vc", {})
-            #     .get("credentialSubject")
-            #     .get("identifier", ""),
-            # }
-            pending_oid4vc_certificate.credential = credential
-            pending_oid4vc_certificate.status = "ready"
-            pending_oid4vc_certificate.save()
+                # credential = {
+                #     "legalName": claims.get("vc", {})
+                #     .get("credentialSubject")
+                #     .get("legalName", ""),
+                #     "identifier": claims.get("vc", {})
+                #     .get("credentialSubject")
+                #     .get("identifier", ""),
+                # }
+                pending_oid4vc_certificate.credential = credential
+                pending_oid4vc_certificate.status = "ready"
+                pending_oid4vc_certificate.credentialJwt = credential_response_json.get(
+                    "credential", ""
+                )
+                pending_oid4vc_certificate.save()
 
     certificate_response = response.json()
     if certificate_response.get("results"):
@@ -97,6 +101,7 @@ def get_certificates(request):
                         "cred_def_id": "Nej8DViZyVvfyaLqGgWUw2:3:CL:84:default",
                         "rev_reg_id": None,
                         "cred_rev_id": None,
+                        "credentialJwt": ready_oid4vc_certificate.credentialJwt,
                     }
                 )
     return Response(certificate_response, status=response.status_code)

@@ -18,6 +18,7 @@ class OpenID4VCCertificate(models.Model):
     user = models.ForeignKey(IGrantUser, on_delete=models.CASCADE)
     acceptance_token = models.CharField(max_length=256, null=True, blank=True)
     credential = JSONField(default={}, blank=True)
+    credentialJwt = models.CharField(max_length=256, null=True, blank=True)
     status = models.CharField(
         max_length=250, null=False, blank=False, default="pending"
     )
