@@ -87,23 +87,22 @@ def get_certificates(request):
                 pending_oid4vc_certificate.save()
 
     certificate_response = response.json()
-    if certificate_response.get("results"):
-        if isinstance(certificate_response.get("results"), list):
-            ready_oid4vc_certificates = OpenID4VCCertificate.objects.filter(
-                status="ready"
+    if isinstance(certificate_response.get("results"), list):
+        ready_oid4vc_certificates = OpenID4VCCertificate.objects.filter(
+            status="ready"
+        )
+        for ready_oid4vc_certificate in ready_oid4vc_certificates:
+            certificate_response.get("results").append(
+                {
+                    "referent": ready_oid4vc_certificate.acceptance_token,
+                    "attrs": ready_oid4vc_certificate.credential,
+                    "schema_id": "Nej8DViZyVvfyaLqGgWUw2:2:Legal Personal Identification Data (LPID):2.0.0",
+                    "cred_def_id": "Nej8DViZyVvfyaLqGgWUw2:3:CL:84:default",
+                    "rev_reg_id": None,
+                    "cred_rev_id": None,
+                    "credentialJwt": ready_oid4vc_certificate.credentialJwt,
+                }
             )
-            for ready_oid4vc_certificate in ready_oid4vc_certificates:
-                certificate_response.get("results").append(
-                    {
-                        "referent": ready_oid4vc_certificate.acceptance_token,
-                        "attrs": ready_oid4vc_certificate.credential,
-                        "schema_id": "Nej8DViZyVvfyaLqGgWUw2:2:Legal Personal Identification Data (LPID):2.0.0",
-                        "cred_def_id": "Nej8DViZyVvfyaLqGgWUw2:3:CL:84:default",
-                        "rev_reg_id": None,
-                        "cred_rev_id": None,
-                        "credentialJwt": ready_oid4vc_certificate.credentialJwt,
-                    }
-                )
     return Response(certificate_response, status=response.status_code)
 
 
