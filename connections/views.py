@@ -19,7 +19,7 @@ import requests
 def get_default_wallet(request):
     organisation_id = config.BOLAGSVERKET_ORG_ID
     authorization = config.BOLAGSVERKET_API_KEY
-    url = f"https://staging-api.igrant.io/v2/config/digital-wallet"
+    url = f"https://demo-api.igrant.io/v2/config/digital-wallet"
     response = requests.get(
         url,
         headers={
@@ -44,25 +44,10 @@ def get_endpoint(request):
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["GET"])
 def get_connections(request):
-    url = "https://staging-api.igrant.io/v2/config/digital-wallet"
+    url = "https://demo-api.igrant.io/v2/config/digital-wallet"
     authorization_header = config.BOLAGSVERKET_API_KEY
     response = requests.get(url, headers={"Authorization": authorization_header})
     return Response(response.json(), status=response.status_code)
-
-    return
-    """
-    endpoint = get_endpoint(request)
-    response = requests.get(endpoint + '/connections')
-    results = response.json().get('results', None)
-    if results is not None:
-        ids = [x['connection_id'] for x in results]
-        invitation_data = Invitations.objects.filter(connection_id__in=ids).values_list(
-                            'connection_id', 'invitation_data')
-    return Response({
-        'result': results,
-        'invitation_data': invitation_data
-    }, status=response.status_code)
-    """
 
 
 @csrf_exempt

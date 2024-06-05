@@ -273,7 +273,7 @@ def request_certificates(request):
             },
         }
         issuance_response = requests.post(
-            "https://staging-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/issue",
+            "https://demo-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/issue",
             headers={
                 "Authorization": config.BOLAGSVERKET_API_KEY,
                 "content-type": "application/json;charset=UTF-8",
