@@ -263,14 +263,7 @@ def request_certificates(request):
     elif certificate == "lpid":
         issue_credential_req_body = {
             "issuanceMode": "Deferred",
-            "userPin": "",
-            "credential": {"type": ["VerifiableLegalPersonalIdentificationData"]},
-            "disclosureMapping": {
-                "credentialSubject": {
-                    "identifier": {"limitedDisclosure": True},
-                    "legalName": {"limitedDisclosure": True},
-                }
-            },
+            "credentialDefinitionId": "efb5483f-c170-497a-b91a-7d10d28bfcc5"
         }
         issuance_response = requests.post(
             "https://demo-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/issue",
