@@ -5,3 +5,4 @@ __pycache__/
 deploy_version
 .DS_Store
 .bootstrap/
+.envrc

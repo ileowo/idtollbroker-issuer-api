@@ -146,8 +146,9 @@ REST_AUTH_SERIALIZERS = {
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "pob_backend.authentication.CustomTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -195,7 +196,10 @@ CONSTANCE_CONFIG = {
         "a2f8d245-fb3d-4b19-bd2d-86f2346acc88",
         "User verification data agreement id",
     ),
-    "BYGG_AB_ORG_ID": ("6343ecbb6de5d70001ac038e", "Organisation id of Bygg ab agent"),
+    "BYGG_AB_ORG_ID": (
+        "6343ecbb6de5d70001ac038e",
+        "Organisation id of Bygg ab agent",
+    ),
     "PROCUREMENT_PORTAL_ORG_ID": (
         "6364ee3781f7df00012cdaba",
         "Organisation id of Procurement Portal agent",
@@ -208,13 +212,16 @@ CONSTANCE_CONFIG = {
         "638f374f2f5d17000144320b",
         "Organisation id of Fria försäkringar agent",
     ),
-    "ORNEN_ORG_ID": ("638f5b292f5d170001443210", "Organisation id of Örnen agent"),
+    "ORNEN_ORG_ID": (
+        "638f5b292f5d170001443210",
+        "Organisation id of Örnen agent",
+    ),
     "BYGG_AB_API_KEY": (
         "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjM0M2VjYmI2ZGU1ZDcwMDAxYWMwMzhlIiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYzNDNlYzRmNmRlNWQ3MDAwMWFjMDM4ZCIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MTUwOH0.0_7YjWHJKIw_4uz0kMtX8wEVekI1nFFQ4B4DROJzbrk",
         "Api key for authentication towards cloud agent",
     ),
     "BOLAGSVERKET_API_KEY": (
-        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjI0YzAyNWQ3ZWZmNmYwMDAxNjRiYjk0IiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYyNGMwMWU3N2VmZjZmMDAwMTY0YmI5MiIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MTY1M30.CDNiBuYxQLUR8BnlWDQzqjcetlhbtdX0h_i6nwzG8r4",
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIiwiYXVkaXQiLCJzZXJ2aWNlIiwib25ib2FyZCJdLCJPcmdhbmlzYXRpb25JZCI6IjYyNGMwMjVkN2VmZjZmMDAwMTY0YmI5NCIsIk9yZ2FuaXNhdGlvbkFkbWluSWQiOiI2NjYwMjFjNDQyMTQ1OWRlMTU5NzBhYjciLCJEYXRhVmVyaWZpZXJVc2VySWQiOiIiLCJFbnYiOiIiLCJleHAiOjE3NTk4MzIxNTd9.3Z9hpQjrgSKGe7FKXes47hQH34M5CLB2Lh4qPtCx5BE",
         "Api key for authentication towards cloud agent",
     ),
     "PROCUREMENT_PORTAL_API_KEY": (
@@ -228,5 +235,21 @@ CONSTANCE_CONFIG = {
     "ORNEN_API_KEY": (
         "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIl0sIk9yZ2FuaXNhdGlvbklkIjoiNjM4ZjViMjkyZjVkMTcwMDAxNDQzMjEwIiwiT3JnYW5pc2F0aW9uQWRtaW5JZCI6IjYzOGY1YjEwMmY1ZDE3MDAwMTQ0MzIwZiIsIkRhdGFWZXJpZmllclVzZXJJZCI6IiIsIkVudiI6IiIsImV4cCI6MTc3Njc5MDc1OH0.JsljIkmmQ8AAMgs0Hf6yWnvvlOrHenlqLBzkpkzFM24",
         "Api key for authentication towards cloud agent",
+    ),
+    "BYGG_AB_OPENID4VC_API_KEY": (
+        "ApiKey eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJTY29wZXMiOlsiY29uZmlnIiwiYXVkaXQiLCJzZXJ2aWNlIiwib25ib2FyZCJdLCJPcmdhbmlzYXRpb25JZCI6IjY2YzI1ODQ4NzZhNTI2M2JjNTMzNWY2ZCIsIk9yZ2FuaXNhdGlvbkFkbWluSWQiOiI2NmMyNTdkNjc2YTUyNjNiYzUzMzVmNjgiLCJEYXRhVmVyaWZpZXJVc2VySWQiOiIiLCJFbnYiOiIiLCJleHAiOjE3NjU4MTIxNDF9.HHZ9LCXf0CWAbwnLH6CbXK99gV1n852N63EZZJt90Fo",
+        "Api key for authentication towards cloud agent (OpenID4VC)",
+    ),
+    "KEYCLOAK_BASE_URL": (
+        "https://staging-consent-bb-iam.igrant.io",
+        "Base URL for Keycloak server",
+    ),
+    "KEYCLOAK_REALM": (
+        "oidc-facade",
+        "Keycloak realm name",
+    ),
+    "KEYCLOAK_CLIENT_ID": (
+        "account",
+        "Keycloak client ID",
     ),
 }

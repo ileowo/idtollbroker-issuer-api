@@ -70,7 +70,7 @@ run: ## Run backend locally for development purposes
 
 .PHONY: build/docker/deployable
 build/docker/deployable: ## Builds deployable docker image for preview, staging and production
-	docker build -t $(DOCKER_IMAGE):$(DOCKER_TAG) -f resources/docker/Dockerfile .
+	docker build --platform=linux/amd64 -t $(DOCKER_IMAGE):$(DOCKER_TAG) -f resources/docker/Dockerfile .
 	echo "$(DOCKER_IMAGE):$(DOCKER_TAG)" > $(DEPLOY_VERSION_FILE)
 
 .PHONY: build/docker/deployable_x86
@@ -84,7 +84,7 @@ build: ## Builds the docker image
 
 .PHONY: publish
 publish: $(DEPLOY_VERSION_F ILE) ## Publish latest production Docker image to docker hub
-	gcloud docker -- push $(DEPLOY_VERSION)
+	docker push $(DEPLOY_VERSION)
 
 deploy/production: $(DEPLOY_VERSION_FILE) ## Deploy to K8s cluster (e.g. make deploy/{preview,staging,production})
 	kubectl set image deployment/demo-pob-backend demo-pob-backend=$(DEPLOY_VERSION) -n bolagsverket 

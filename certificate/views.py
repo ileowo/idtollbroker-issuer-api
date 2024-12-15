@@ -13,7 +13,9 @@ from certificate.models import Certificates, OpenID4VCCertificate
 
 def decode_header_and_claims_in_jwt(token: str) -> Tuple[dict, dict]:
     headers_encoded, claims_encoded, _ = token.split(".")
-    claims_decoded = base64.b64decode(claims_encoded + "=" * (-len(claims_encoded) % 4))
+    claims_decoded = base64.b64decode(
+        claims_encoded + "=" * (-len(claims_encoded) % 4)
+    )
     headers_decoded = base64.b64decode(
         headers_encoded + "=" * (-len(headers_encoded) % 4)
     )
@@ -21,7 +23,9 @@ def decode_header_and_claims_in_jwt(token: str) -> Tuple[dict, dict]:
 
 
 def decode_disclosure(disclosure: str):
-    disclosure_decoded = base64.b64decode(disclosure + "=" * (-len(disclosure) % 4))
+    disclosure_decoded = base64.b64decode(
+        disclosure + "=" * (-len(disclosure) % 4)
+    )
     return json.loads(disclosure_decoded)
 
 
@@ -47,42 +51,40 @@ def get_certificates(request):
     )
 
     # Iterate through pending certificates and try to resolve the credential
-    pending_oid4vc_certificates = OpenID4VCCertificate.objects.filter(status="pending")
+    pending_oid4vc_certificates = OpenID4VCCertificate.objects.filter(
+        status="pending"
+    )
     for pending_oid4vc_certificate in pending_oid4vc_certificates:
-        headers = {
-            "Authorization": f"Bearer {pending_oid4vc_certificate.acceptance_token}"
-        }
-        credential_response = requests.post(
-            "https://oid4vc.igrant.io/organisation/f31864d0-0454-4adc-bd65-f8bbfbe06dbe/service/credential_deferred",
+        authorization_header = config.BYGG_AB_OPENID4VC_API_KEY
+        headers = {"Authorization": authorization_header}
+        credential_response = requests.put(
+            f"https://demo-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/{pending_oid4vc_certificate.acceptance_token}/receive-deferred",
             json={},
             headers=headers,
         )
         if credential_response.status_code == 200:
             credential_response_json = credential_response.json()
-            disclosures = credential_response_json.get("credential", "").split("~")
-            if len(disclosures) == 3:
-                _, claims = decode_header_and_claims_in_jwt(
-                    credential_response_json.get("credential")
+            if (
+                credential_response_json.get("credential", {}).get(
+                    "credentialStatus", ""
                 )
-                disclosure1 = decode_disclosure(disclosures[1])
-                disclosure2 = decode_disclosure(disclosures[2])
-
-                credential = {}
-                credential[disclosure1[1]] = disclosure1[2]
-                credential[disclosure2[1]] = disclosure2[2]
-
-                # credential = {
-                #     "legalName": claims.get("vc", {})
-                #     .get("credentialSubject")
-                #     .get("legalName", ""),
-                #     "identifier": claims.get("vc", {})
-                #     .get("credentialSubject")
-                #     .get("identifier", ""),
-                # }
+                == "credential_acked"
+            ):
+                legalName = (
+                    credential_response_json.get("credential", {})
+                    .get("credential", {})
+                    .get("legalName", "")
+                )
+                identifier = (
+                    credential_response_json.get("credential", {})
+                    .get("credential", {})
+                    .get("identifier", "")
+                )
+                credential = {"legalName": legalName, "identifier": identifier}
                 pending_oid4vc_certificate.credential = credential
                 pending_oid4vc_certificate.status = "ready"
-                pending_oid4vc_certificate.credentialJwt = credential_response_json.get(
-                    "credential", ""
+                pending_oid4vc_certificate.credentialJwt = (
+                    credential_response_json.get("credential", "")
                 )
                 pending_oid4vc_certificate.save()
 
@@ -116,9 +118,11 @@ def get_real_estate_insurance_certificate():
     real_estate_insurance_connection_id = config.WALLET_USER_ISSUANCE_CONFIG[
         "REAL_ESTATE_INSURANCE_CONNECTION_ID"
     ]
-    real_estate_insurance_data_agreement_id = config.WALLET_USER_ISSUANCE_CONFIG[
-        "REAL_ESTATE_INSURANCE_DATA_AGREEMENT_ID"
-    ]
+    real_estate_insurance_data_agreement_id = (
+        config.WALLET_USER_ISSUANCE_CONFIG[
+            "REAL_ESTATE_INSURANCE_DATA_AGREEMENT_ID"
+        ]
+    )
     payload = {
         "comment": "Real estate insurance",
         "auto_remove": False,
@@ -195,7 +199,10 @@ def get_default_certificate():
                     "name": "registeredAddress.fullAddress",
                     "value": "Sveavägen 48, 111 34 Stockholm, Sweden",
                 },
-                {"name": "registeredAddress.thoroughFare", "value": "Sveavägen"},
+                {
+                    "name": "registeredAddress.thoroughFare",
+                    "value": "Sveavägen",
+                },
                 {"name": "registeredAddress.locatorDesignator", "value": "48"},
                 {"name": "registeredAddress.postCode", "value": "111 34"},
                 {"name": "registeredAddress.postName", "value": "Stockholm"},
@@ -227,7 +234,9 @@ def request_certificates(request):
         if response.status_code == 200:
             instance = Certificates.objects.create(
                 user=request.user,
-                credential_exchange_id=response.json().get("credential_exchange_id"),
+                credential_exchange_id=response.json().get(
+                    "credential_exchange_id"
+                ),
             )
             instance.save()
             response = response.json()
@@ -236,7 +245,9 @@ def request_certificates(request):
         return response, status_code
 
     # Delete all the pending credential requests
-    pending_oid4vc_certificates = OpenID4VCCertificate.objects.filter(status="pending")
+    pending_oid4vc_certificates = OpenID4VCCertificate.objects.filter(
+        status="pending"
+    )
     pending_oid4vc_certificates.delete()
 
     if certificate == "real_estate_insurance":
@@ -263,7 +274,7 @@ def request_certificates(request):
     elif certificate == "lpid":
         issue_credential_req_body = {
             "issuanceMode": "Deferred",
-            "credentialDefinitionId": "efb5483f-c170-497a-b91a-7d10d28bfcc5"
+            "credentialDefinitionId": "c41fcf08-0fa0-41b3-b097-fc5ebdad6048",
         }
         issuance_response = requests.post(
             "https://demo-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/issue",
@@ -275,25 +286,30 @@ def request_certificates(request):
         )
         if issuance_response.status_code == 200:
             issuance_response_json = issuance_response.json()
+            authorization_header = config.BYGG_AB_OPENID4VC_API_KEY
             offer_response = requests.post(
-                "https://oid4vc.igrant.io/organisation/f31864d0-0454-4adc-bd65-f8bbfbe06dbe/service/resolve-credential-offer",
+                "https://demo-api.igrant.io/v2/config/digital-wallet/openid/sdjwt/credential/receive",
                 json={
-                    "offer_uri": issuance_response_json.get(
+                    "credentialOffer": issuance_response_json.get(
                         "credentialHistory", {}
                     ).get("credentialOffer", "")
                 },
+                headers={"Authorization": authorization_header},
             )
             if offer_response.status_code == 200:
                 offer_response_json = offer_response.json()
                 oid4vc_certificate = OpenID4VCCertificate.objects.create(
                     user=request.user,
-                    acceptance_token=offer_response_json.get("acceptance_token"),
+                    acceptance_token=offer_response_json.get(
+                        "credential", {}
+                    ).get("credentialId", "nil"),
                 )
                 oid4vc_certificate.save()
                 return Response({}, status=200)
             else:
                 return Response(
-                    {"error": "Failed to resolved the credential offer"}, status=400
+                    {"error": "Failed to resolved the credential offer"},
+                    status=400,
                 )
         else:
             return Response({"error": "Failed to request issuance"}, status=400)
