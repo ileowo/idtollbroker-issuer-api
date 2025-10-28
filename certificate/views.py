@@ -444,27 +444,47 @@ def get_certificate_schema_attributes(request):
         )
         return Response(response.json(), status=response.status_code)
 
-
 @csrf_exempt
 @permission_classes([permissions.IsAuthenticated])
 @api_view(["DELETE"])
 def delete_certificate(request):
     authorization = config.BYGG_AB_API_KEY
-    organisation_id = request.GET["organisation_id"]
-    referent = request.GET["referent"]
+    organisation_id = request.GET.get("organisation_id")
+    referent = request.GET.get("referent")
+
+    if not organisation_id or not referent:
+        return Response({"error": "Missing organisation_id or referent"}, status=400)
+
     tbd_oid4vc_certificates = OpenID4VCCertificate.objects.filter(
         acceptance_token=referent
     )
-    if tbd_oid4vc_certificates:
+    if tbd_oid4vc_certificates.exists():
         tbd_oid4vc_certificates.delete()
         return Response(status=204)
-    else:
-        url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credential/{referent}"
-        response = requests.delete(
-            url,
-            headers={
-                "Authorization": authorization,
-                "content-type": "application/json;charset=UTF-8",
-            },
-        )
-        return Response(status=response.status_code)
+
+    url = f"https://cloudagent.igrant.io/v1/{organisation_id}/admin/credential/{referent}"
+    response = requests.delete(
+        url,
+        headers={
+            "Authorization": authorization,
+            "content-type": "application/json;charset=UTF-8",
+        },
+    )
+    return Response(status=response.status_code)
+
+
+@csrf_exempt
+@api_view(["GET"])
+@permission_classes([permissions.AllowAny])  # ✅ Public endpoint for Authenticator
+def credential_offer(request):
+    offer = {
+        "credential_issuer": "https://issuer.idtollbroker.com",
+        "credential_configuration_ids": ["OpenID4VCI_Credential"],
+        "grants": {
+            "urn:ietf:params:oauth:grant-type:pre-authorized_code": {
+                "pre-authorized_code": "abc123",
+                "user_pin_required": False
+            }
+        }
+    }
+    return Response(offer)

@@ -15,15 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from certificate.views import credential_offer  # ✅ Added import
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(r"rest-auth/", include("rest_auth.urls")),
-    path(r"users", include("igrant_user.urls")),
-    path(r"connections", include("connections.urls")),
-    path(r"certificates", include("certificate.urls")),
-    path(r'procurement-buyer/', include("buyer.urls")),
-    path(r'procurement-supplier/', include("seller.urls")),
-    path(r'verifications/', include("verifications.urls")),
-    path(r'webhooks/', include("webhook.urls")),
+    path("rest-auth/", include("rest_auth.urls")),
+    path("users", include("igrant_user.urls")),
+    path("connections", include("connections.urls")),
+    path("certificates", include("certificate.urls")),
+    path("procurement-buyer/", include("buyer.urls")),
+    path("procurement-supplier/", include("seller.urls")),
+    path("verifications/", include("verifications.urls")),
+    path("webhooks/", include("webhook.urls")),
+    path("credential-offer", credential_offer, name="credential_offer"),  # ✅ Added route
 ]
